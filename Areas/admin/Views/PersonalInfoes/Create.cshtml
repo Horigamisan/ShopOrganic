@@ -1,0 +1,112 @@
+﻿@model WebDemo.Models.PersonalInfo
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/admin/Views/Shared/Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- DataTales Example -->
+        <div class="card border-danger shadow mb-4">
+            <div class="card-header bg-danger py-3">
+                <h6 class="m-0 font-weight-bold text-white">Thêm mới thông tin liên lạc</h6>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Create", "PersonalInfoes", FormMethod.Post, new
+                {
+                    enctype = "multipart/form-data"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row form-group">
+                        @Html.Label("Số điện thoại", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Địa chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Giờ mở cửa", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.opentime, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.opentime, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Meta", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.meta, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.meta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Ẩn", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @{
+                                    bool hide = true;
+                                }
+                                @Html.CheckBoxFor(model => hide, new { style = "margin: -1px 5px" })
+                                @Html.ValidationMessageFor(model => model.hide, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Thứ tự", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.order, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.order, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+                }
+
+                <div>
+                    @Html.ActionLink("Trở về danh sách", "Index")
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section _Footer
+{
+    <script>
+            $(function () {
+                $("#name").keyup(function () {
+                    var text = $.trim($(this).val().toLowerCase());
+                    var text_create;
+                    text_create = text.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a").replace(/\ /g, '-').replace(/đ/g, "d").replace(/đ/g, "d").replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y").replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u").replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ.+/g, "o").replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ.+/g, "e").replace(/ì|í|ị|ỉ|ĩ/g, "i");
+                    $('#meta').val(text_create);
+                }).keyup();
+            });
+    </script>
+}

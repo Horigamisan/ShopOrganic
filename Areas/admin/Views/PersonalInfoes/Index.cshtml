@@ -1,0 +1,116 @@
+﻿@model IEnumerable<WebDemo.Models.PersonalInfo>
+@using WebDemo.Helper
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/admin/Views/Shared/Layout.cshtml";
+}
+@section _Header
+{
+    <!-- Custom styles for this page -->
+    <link href="~/Areas/admin/Scripts/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+<style>
+    th, td {
+        text-align: center;
+    }
+
+        td p {
+            height: 50px;
+            overflow-y: hidden;
+            text-overflow: ellipsis;
+        }
+</style>
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card border-danger shadow mb-4">
+        <div class="card-header bg-danger py-3">
+            <h6 class="m-0 font-weight-bold text-white">Quản lý thông tin liên lạc</h6>
+        </div>
+        <div class="card-body">
+            <div class="bs-example" style="text-align:right; padding-bottom:10px;">
+                <div class="btn-group">
+                    @Html.NoEncodeActionLink("<span class='fa fa-plus'></span> Thêm mới", "Create", "Create", "PersonalInfoes", routeValues: new { }, htmlAttributes: new { @class = "btn btn-primary" })
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Giờ mở cửa</th>
+                            <th>Email</th>
+                            <th>Chỉnh sửa thông tin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var Number = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.Raw(Number++)
+                                </td>
+
+                                <td>
+                                    @Html.Raw(item.phone)
+                                </td>
+
+                                <td>
+                                    @Html.Raw(item.address)
+                                </td>
+
+                                <td>
+                                    @Html.Raw(item.opentime)
+                                </td>
+                                <td>
+                                    @Html.Raw(item.email)
+                                </td>
+
+
+                                <td>
+                                    @Html.NoEncodeActionLink("<i class='fa fa-edit'></i>", "Edit", "Edit", "PersonalInfoes", routeValues: new { id = item.id }, htmlAttributes: new { @class = "btn btn-secondary" })
+                                    @Html.NoEncodeActionLink("<i class='fa fa-search-plus'></i>", "Detail", "Details", "PersonalInfoes", routeValues: new { id = item.id }, htmlAttributes: new { @class = "btn btn-primary" })
+                                    @Html.NoEncodeActionLink("<i class='fa fa-trash'></i>", "Delete", "Delete", "PersonalInfoes", routeValues: new { id = item.id }, htmlAttributes: new { @class = "btn btn-danger" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section _Footer
+{
+    <!-- Page level plugins -->
+    <script src="~/Areas/admin/Scripts/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/admin/Scripts/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/Areas/admin/Scripts/js/demo/datatables-demo.js"></script>
+    <script>
+        var url = window.location.href;
+
+        // Tìm tất cả các thẻ <a> có class là "collapse-item"
+        var links = document.querySelectorAll('.collapse-item');
+
+        // Duyệt qua từng thẻ <a>
+        links.forEach(function (link) {
+            // Nếu href của thẻ <a> trùng với URL của trang hiện tại
+            if (link.href === url) {
+                // Thêm lớp "active" vào thẻ <a>
+                link.classList.add('active');
+
+                // Thêm lớp "show" vào thẻ cha của thẻ <a>
+                var grandParent = link.parentElement.parentElement;
+                grandParent.classList.add('show');
+            }
+        });
+    </script>
+}
+

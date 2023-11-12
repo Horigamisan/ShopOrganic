@@ -1,0 +1,84 @@
+﻿@model WebDemo.Models.ListCategories
+@using WebDemo.Helper
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/admin/Views/Shared/Layout.cshtml";
+}
+
+@section _Header
+{
+    <!-- Custom styles for this page -->
+    <link href="~/Areas/admin/Scripts/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card border-danger shadow mb-4">
+        <div class="card-header bg-danger py-3">
+            <h6 class="m-0 font-weight-bold text-white">Quản lý sản phẩm</h6>
+        </div>
+        <div class="card-body">
+            <div class="bs-example" style="text-align:right; padding-bottom:10px;">
+                <div class="btn-group">
+                    @Html.DropDownListFor(model => model.id, (SelectList)ViewBag.Category, " --- Tất cả sản phẩm --- ", new { @class = "form-control", @id = "Category" })
+                </div>
+
+                <div class="btn-group">
+                    @Html.NoEncodeActionLink("<span class='fa fa-plus'></span> Thêm mới", "Create", "Create", "Products", routeValues: new { }, htmlAttributes: new { @class = "btn btn-primary" })
+                </div>
+            </div>
+            <div id="getProduct"></div>
+        </div>
+
+        @section _Footer
+{
+            <!-- Page level plugins -->
+            <script src="~/Areas/admin/Scripts/vendor/datatables/jquery.dataTables.min.js"></script>
+            <script src="~/Areas/admin/Scripts/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="~/Areas/admin/Scripts/js/demo/datatables-demo.js"></script>
+            <script>
+        $(document).ready(function () {
+            function getProduct() {
+                var CategoryId = $('#Category').val();
+                $.ajax({
+                    url: '@Url.Action("getProduct", "Products")',
+                    type: "GET",
+                    data: { id: CategoryId },
+                    success: function (data) {
+                        $("#getProduct").html(data);
+                    },
+                    error: function (data) {
+                        alert("something went wrong.");
+                    }
+                });
+            }
+            getProduct();
+            $("#Category").change(function () {
+                getProduct();
+            })
+
+            // Lấy URL của trang hiện tại
+            var url = window.location.href;
+
+            // Tìm tất cả các thẻ <a> có class là "collapse-item"
+            var links = document.querySelectorAll('.collapse-item');
+
+            // Duyệt qua từng thẻ <a>
+            links.forEach(function (link) {
+                // Nếu href của thẻ <a> trùng với URL của trang hiện tại
+                if (link.href === url) {
+                    // Thêm lớp "active" vào thẻ <a>
+                    link.classList.add('active');
+
+                    // Thêm lớp "show" vào thẻ cha của thẻ <a>
+                    var grandParent = link.parentElement.parentElement;
+                    grandParent.classList.add('show');
+                }
+            });
+        });
+            </script>
+        }

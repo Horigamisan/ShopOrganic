@@ -1,0 +1,9 @@
+﻿@model WebDemo.Models.ListCategories
+
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+
+@{ Html.RenderAction("getProductByCategory", "Product", new {id = Model.id, title = Model.name}); }

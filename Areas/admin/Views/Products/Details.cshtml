@@ -1,0 +1,170 @@
+﻿@model WebDemo.Models.Products
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/admin/Views/Shared/Layout.cshtml";
+}
+
+
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- DataTales Example -->
+        <div class="card border-danger shadow mb-4">
+            <div class="card-header bg-danger py-3">
+                <h6 class="m-0 font-weight-bold text-white">Thông tin sản phẩm</h6>
+            </div>
+            <div class="card-body">
+
+                <div class="form-horizontal">
+                    <div class="row form-group">
+                        @Html.Label("Danh mục", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @{
+                                var category = ViewBag.name;
+                            }
+                            @Html.DisplayFor(model => category)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Tên sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.name)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Giá sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.price)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Hình ảnh", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <img src="~/Uploads/img/product/@Model.img" />
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Mô tả", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.description)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Meta", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.meta)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Thứ tự", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.order)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Hiển thị", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="checkbox">
+                            @{
+                                bool hide = (Model.hide.GetValueOrDefault(false) ? true : false);
+                            }
+                            @Html.CheckBoxFor(model => hide, new
+                            {
+                                style = "margin: -1px 5px",
+                                disabled = "disabled"
+                            })
+                            @Html.ValidationMessageFor(model => model.hide, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Sản phẩm mới nhất", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="checkbox">
+                            @{
+                                bool latest_product = (Model.latest_product.GetValueOrDefault(false) ? true : false);
+                            }
+                            @Html.CheckBoxFor(model => latest_product, new
+                            {
+                                style = "margin: -1px 5px",
+                                disabled = "disabled"
+                            })
+                            @Html.ValidationMessageFor(model => model.latest_product, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Sản phẩm top đầu", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="checkbox">
+                            @{
+                                bool top_product = (Model.top_product.GetValueOrDefault(false) ? true : false);
+                            }
+                            @Html.CheckBoxFor(model => top_product, new
+                            {
+                                style = "margin: -1px 5px",
+                                disabled = "disabled"
+                            })
+                            @Html.ValidationMessageFor(model => model.hide, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Sản phẩm review", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="checkbox">
+                            @{
+                                bool review_product = (Model.review_product.GetValueOrDefault(false) ? true : false);
+                            }
+                            @Html.CheckBoxFor(model => review_product, new
+                            {
+                                style = "margin: -1px 5px",
+                                disabled = "disabled"
+                            })
+                            @Html.ValidationMessageFor(model => model.review_product, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Trạng thái hàng hoá", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.availability)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Thời gian giao hàng", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.shipping_day)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Cân nặng", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.weight)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.Label("Mô tả chi tiết", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.detail_description)
+                        </div>
+                    </div>
+
+                    <p>
+                        @Html.ActionLink("Sửa", "Edit", new { id = Model.id }) |
+                        @Html.ActionLink("Trở về danh sách", "Index")
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

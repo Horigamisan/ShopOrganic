@@ -1,0 +1,12 @@
+﻿@model IEnumerable<WebDemo.Models.ListCategories>
+
+<div class="categories__slider owl-carousel">
+    @foreach (var i in Model)
+    {
+        <div class="col-lg-3">
+            <div class="categories__item set-bg" data-setbg="/Uploads/img/categories/@i.img">
+                <h5><a href="/@ViewBag.meta/@i.meta/">@i.name</a></h5>
+            </div>
+        </div>
+    }
+</div>

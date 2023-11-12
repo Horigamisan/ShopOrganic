@@ -1,0 +1,17 @@
+﻿@model IEnumerable<WebDemo.Models.UsefulLinks>
+
+<ul>
+    @{ 
+        var list = Model.ToArray();
+    }
+    @for (var i = 0; i < list.Length / 2; i++)
+            {
+                <li><a href="#">@list[i].name</a></li>
+            }
+</ul>
+<ul>
+    @for (var i = list.Length / 2; i < list.Length; i++)
+    {
+        <li><a href="#">@list[i].name</a></li>
+    }
+</ul>

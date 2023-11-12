@@ -1,0 +1,10 @@
+﻿@model IEnumerable<WebDemo.Models.menu>
+
+<nav class="header__menu">
+    <ul>
+        @foreach (var i in Model)
+            {
+                <li><a href="/@i.meta">@i.name</a></li>
+            }
+    </ul>
+</nav>

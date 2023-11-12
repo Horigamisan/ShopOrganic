@@ -1,0 +1,24 @@
+﻿@model IList<WebDemo.Models.Products>
+
+<div class="latest-product__text">
+    <h4>Sản phẩm mới</h4>
+    <div class="latest-product__slider owl-carousel">
+        @for (var i = 0; i < (Model.Count() / 3) + 1; i++)
+        {
+            <div class="latest-prdouct__slider__item">
+                @for (var j = i * 2; j < i + 3; j++)
+                {
+                    <a href="/@ViewBag.meta/@Model[j].meta/@Model[j].id" class="latest-product__item">
+                        <div class="latest-product__item__pic">
+                            <img src="~/Uploads/img/product/@Model[j].img" alt="">
+                        </div>
+                        <div class="latest-product__item__text">
+                            <h6>@Model[j].name</h6>
+                            <span>@Model[j].price VNĐ</span>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>

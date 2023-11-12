@@ -1,0 +1,205 @@
+﻿@model IEnumerable<WebDemo.Models.Carts>
+@using WebDemo.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/Uploads/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Giỏ hàng</h2>
+                    <div class="breadcrumb__option">
+                        <a href="/">Trang chủ</a>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="shoping__product">Sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                    List<Products> products = ViewBag.Products;
+                                    var totalPrice = (double?)0;
+                                    foreach (var item in Model)
+                                    {
+                                        var product = products.Find(x => x.id == item.ProductID);
+                                        totalPrice += (double?)item.Price;
+
+                                    <tr class="cartItemsLoop">
+                                        <td class="shoping__cart__item">
+                                            <img src="~/Uploads/img/product/@product.img" alt="" width="30%">
+                                            <h5 data-id="@item.CartID">@product.name</h5>
+                                        </td>
+                                        <td class="shoping__cart__price">
+                                            @product.price
+                                        </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input type="text" value="@item.Quantity">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="shoping__cart__total">
+                                            @item.Price
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <span class="icon_close" onclick="removeCartItem(@item.CartID)"></span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__btns">
+                    <a href="#" class="primary-btn cart-btn">TIẾP TỤC MUA HÀNG</a>
+                    <a href="#" class="primary-btn cart-btn cart-btn-right" id="updateCartBtn">
+                        <span class="icon_loading"></span>
+                        Cập nhật giỏ hàng
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6">
+                <div class="shoping__checkout">
+                    <h5>Tổng tiền giỏ hàng</h5>
+                    <ul>
+                        <li>Tổng tiền <span>@totalPrice VNĐ</span></li>
+                    </ul>
+                    <a href="/thanh-toan" class="primary-btn">TỚI THANH TOÁN</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shoping Cart Section End -->
+
+@section Scripts{
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var decButtons = document.querySelectorAll(".pro-qty .dec");
+            var incButtons = document.querySelectorAll(".pro-qty .inc");
+            var inputs = document.querySelectorAll(".pro-qty input");
+
+            decButtons.forEach(function (button, index) {
+                button.addEventListener("click", function () {
+                    var quantity = parseInt(inputs[index].value);
+                    if (quantity <= 0) {
+                        quantity = 1;
+                    }
+                    updateTotalPrice(index, quantity - 1);
+                });
+            });
+
+            incButtons.forEach(function (button, index) {
+                button.addEventListener("click", function () {
+                    var quantity = parseInt(inputs[index].value);
+                    updateTotalPrice(index, quantity + 1);
+                });
+            });
+
+            inputs.forEach(function (input, index) {
+                input.addEventListener("input", function () {
+                    var quantity = parseInt(input.value);
+                    if (isNaN(quantity) || quantity <= 0) {
+                        input.value = 1;
+                    }
+                    updateTotalPrice(index);
+                });
+            });
+
+            function updateTotalPrice(index, value) {
+                var quantity = parseInt(value || inputs[index].value);
+                var price = parseFloat(inputs[index].closest("tr").querySelector(".shoping__cart__price").textContent);
+                var totalPrice = quantity * price;
+
+                inputs[index].closest("tr").querySelector(".shoping__cart__total").textContent = totalPrice;
+            }
+        });
+        $(document).ready(function () {
+            $('#updateCartBtn').click(function (e) {
+                e.preventDefault();
+
+                var cartItems = [];
+
+                // Lặp qua từng hàng trong bảng giỏ hàng
+                $('.cartItemsLoop').each(function () {
+                    var cartId = $(this).find('h5').data('id');
+                    var quantity = $(this).find('.pro-qty input').val();
+
+                    var cartItem = {
+                        id: cartId,
+                        quantity: parseInt(quantity)
+                    };
+
+                    cartItems.push(cartItem);
+                });
+                console.log(cartItems)
+
+                // Gửi yêu cầu Ajax để cập nhật giỏ hàng
+                $.ajax({
+                    url: '/Carts/UpdateCarts',
+                    type: 'POST',
+                    data: { cartItems: cartItems },
+                    success: function (result) {
+                        // Xử lý thành công
+                        // Thực hiện các thay đổi cần thiết trên giao diện người dùng sau khi cập nhật giỏ hàng
+                        if (result.success) {
+                            location.reload()
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi
+                        console.log(error)
+                    }
+                });
+            });
+        });
+
+        function removeCartItem(cartItemId) {
+            $.ajax({
+                url: '/Carts/RemoveCartItem',
+                type: 'POST',
+                data: { cartItemId: cartItemId },
+                success: function (response) {
+                    // Xử lý phản hồi thành công
+                    // Ví dụ: cập nhật lại giao diện hoặc thông báo xóa thành công
+                    location.reload()
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi
+                }
+            });
+        }
+    </script>
+    
+}

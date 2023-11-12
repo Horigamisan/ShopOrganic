@@ -1,0 +1,161 @@
+﻿@model WebDemo.Models.Products
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/Uploads/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Gian hàng</h2>
+                    <div class="breadcrumb__option">
+                        <a href="/">Trang chủ</a>
+                        <a href="/san-pham/@ViewBag.category.meta">@ViewBag.category.name</a>
+                        <span>@Model.name</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <img class="product__details__pic__item--large"
+                             src="~/Uploads/img/product/@Model.img" alt="">
+                    </div>
+                    <div class="product__details__pic__slider owl-carousel">
+                        <img data-imgbigurl="~/Uploads/img/product/details/product-details-2.jpg"
+                             src="~/Uploads/img/product/details/thumb-1.jpg" alt="">
+                        <img data-imgbigurl="~/Uploads/img/product/details/product-details-3.jpg"
+                             src="~/Uploads/img/product/details/thumb-2.jpg" alt="">
+                        <img data-imgbigurl="~/Uploads/img/product/details/product-details-5.jpg"
+                             src="~/Uploads/img/product/details/thumb-3.jpg" alt="">
+                        <img data-imgbigurl="~/Uploads/img/product/details/product-details-4.jpg"
+                             src="~/Uploads/img/product/details/thumb-4.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3>@Model.name</h3>
+                    <div class="product__details__rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                        <span>@Model.reviews_number</span>
+                    </div>
+                    <div class="product__details__price">@Model.price VNĐ</div>
+                    <p>
+                        @Model.description
+                    </p>
+                    <div class="product__details__quantity">
+                        <div class="quantity">
+                            <div class="pro-qty">
+                                <input type="text" value="1">
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="primary-btn" id="AddToCarts">THÊM VÀO GIỎ</a>
+                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                    <ul>
+                        <li><b>Trạng thái</b> <span>@Model.availability</span></li>
+                        <li><b>Thời gian giao hàng</b> <span>@Model.shipping_day</span></li>
+                        <li><b>Cân nặng</b> <span>@Model.weight</span></li>
+                        <li>
+                            <b>Chia sẻ trên</b>
+                            <div class="share">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa fa-pinterest"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                               aria-selected="true">Mô tả</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                               aria-selected="false">Reviews (1)</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6>Thông tin sản phẩm</h6>
+                                <p>
+                                    @Model.detail_description
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6>Review từ khách hàng</h6>
+                                <p>
+                                    @Model.review_comment
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Details Section End -->
+<!-- Related Product Section Begin -->
+<section class="related-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title related__product__title">
+                    <h2>Sản phẩm liên quan</h2>
+                </div>
+            </div>
+            @{Html.RenderAction("getRelatedProduct", "Product", new { id = Model.id , categoryid = ViewBag.category.id});}
+        </div>
+    </div>
+</section>
+<!-- Related Product Section End -->
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+          $("#AddToCarts").click(function(e) {
+            e.preventDefault();
+            var productId = @Model.id
+            var quantity = document.querySelector(".pro-qty input").value;
+
+            $.ajax({
+              url: '@Url.Action("AddToCarts", "Carts")', // Thay thế "ControllerName" bằng tên controller thực tế
+              type: 'POST',
+              data: { productId: productId, quantity: quantity },
+              success: function(result) {
+                window.location.href = '/gio-hang';
+              },
+              error: function(xhr, status, error) {
+                // Xử lý lỗi (nếu cần)
+              }
+            });
+          });
+});
+    </script>
+}
