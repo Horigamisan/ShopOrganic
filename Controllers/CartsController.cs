@@ -10,7 +10,7 @@ namespace WebDemo.Controllers
     [Authorize]
     public class CartsController : Controller
     {
-        ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         // GET: Carts
         public ActionResult Index()
         {
@@ -69,12 +69,14 @@ namespace WebDemo.Controllers
             }
             else
             {
-                cartItem = new Carts();
-                cartItem.UserID = userId;
-                cartItem.ProductID = productId;
-                cartItem.Quantity = quantity;
-                cartItem.Price = (double?)(quantity * db.Products.Find(productId).price);
-                cartItem.Status = "Đang chờ";
+                cartItem = new Carts
+                {
+                    UserID = userId,
+                    ProductID = productId,
+                    Quantity = quantity,
+                    Price = (double?)(quantity * db.Products.Find(productId).price),
+                    Status = "Đang chờ"
+                };
                 db.Carts.Add(cartItem);
             }
             db.SaveChanges();

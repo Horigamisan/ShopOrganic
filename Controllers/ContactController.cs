@@ -9,7 +9,7 @@ namespace WebDemo.Controllers
 {
     public class ContactController : Controller
     {
-        ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         // GET: Contact
         public ActionResult Index()
         {

@@ -43,13 +43,13 @@ namespace WebDemo.Controllers
 
         public ActionResult renderCarts()
         {
-             var emailUser = User.Identity.Name;
+            var emailUser = User.Identity.Name;
             if (!User.Identity.IsAuthenticated)
             {
                 return PartialView();
             }
             var userId = db.AspNetUsers.Where(x => x.Email == emailUser).FirstOrDefault().Id;
-                var model = db.Carts.Where(x => x.UserID == userId && x.Status != "Huỷ" && x.Status != "Đã thanh toán");
+            var model = db.Carts.Where(x => x.UserID == userId && x.Status != "Huỷ" && x.Status != "Đã thanh toán");
             var orderHistory = db.Orders.Where(x => x.UserID == userId);
                 ViewBag.Products = db.Products.ToList();
             ViewBag.OrderHistory = orderHistory.Count();

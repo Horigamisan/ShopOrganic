@@ -10,7 +10,7 @@ namespace WebDemo.Controllers
     [Authorize]
     public class CheckoutController : Controller
     {
-        ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         // GET: Checkout
         public ActionResult Index()
         {
@@ -43,24 +43,28 @@ namespace WebDemo.Controllers
                 return View(orderPost);
             }
 
-            var order = new Orders();
-            order.UserID = userId;
-            order.NameCustomer = orderPost.FirstName + " " + orderPost.LastName;
-            order.ShippingAddress = orderPost.AddressLine1 + ", " + orderPost.AddressLine2 + ", " + orderPost.City;
-            order.PhoneNumber = orderPost.PhoneNumber;
-            order.NoteOrder = orderPost.Notes;
-            order.OrderDate = DateTime.Now;
-            order.PaymentStatus = "Đang xử lý";
-            order.TotalAmount = carts.Sum(x => x.Price) + 4000;
+            var order = new Orders
+            {
+                UserID = userId,
+                NameCustomer = orderPost.FirstName + " " + orderPost.LastName,
+                ShippingAddress = orderPost.AddressLine1 + ", " + orderPost.AddressLine2 + ", " + orderPost.City,
+                PhoneNumber = orderPost.PhoneNumber,
+                NoteOrder = orderPost.Notes,
+                OrderDate = DateTime.Now,
+                PaymentStatus = "Đang xử lý",
+                TotalAmount = carts.Sum(x => x.Price) + 4000
+            };
             db.Orders.Add(order);
             db.SaveChanges();
             foreach (var item in carts)
             {
-                var orderDetail = new OrderProduct();
-                orderDetail.OrderID = order.OrderID;
-                orderDetail.ProductID = item.ProductID;
-                orderDetail.Quantity = item.Quantity;
-                orderDetail.Price = item.Price;
+                var orderDetail = new OrderProduct
+                {
+                    OrderID = order.OrderID,
+                    ProductID = item.ProductID,
+                    Quantity = item.Quantity,
+                    Price = item.Price
+                };
                 db.OrderProduct.Add(orderDetail);
                 item.Status = "Đã thanh toán";
             }

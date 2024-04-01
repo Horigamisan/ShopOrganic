@@ -5,17 +5,42 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebDemo.Models;
+using PagedList;
+using System.Data.SqlClient;
 
 namespace WebDemo.Controllers
 {
     public class ShopController : Controller
     {
-        ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         // GET: Shop
-        public ActionResult Index(string sortBy)
+        public ActionResult Index( string currentFilter, string searchString, int? page, int? minPrice, int? maxPrice, string sortBy = "newProduct")
         {
             ViewBag.meta = "san-pham";
             IEnumerable<Products> productList;
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.MinPrice = minPrice ?? 1000;
+            ViewBag.MaxPrice = maxPrice ?? 500000;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                productList = db.Products.Where(p => p.name.Contains(searchString) || p.description.Contains(searchString));
+            }
+            else
+            {
+                productList = db.Products;
+            }
+
             switch (sortBy)
             {
                 case "newProduct":
@@ -39,8 +64,18 @@ namespace WebDemo.Controllers
                     productList = db.Products.OrderByDescending(p => p.id);
                     break;
             }
+
+            if (minPrice != null && maxPrice != null)
+            {
+                productList = productList.Where(p => p.price >= minPrice && p.price <= maxPrice);
+            }
+
             ViewBag.Sort = sortBy;
-            return View(productList);
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            ViewBag.Page = pageNumber;
+            ViewBag.TotalProduct = productList.Count();
+            return View(productList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult ListCategory()
@@ -56,6 +91,6 @@ namespace WebDemo.Controllers
             var model = db.Products.Where(x => x.hide == false && x.latest_product == true).OrderByDescending(x => x.order).ToList();
             return PartialView(model);
         }
-        
+
     }
 }

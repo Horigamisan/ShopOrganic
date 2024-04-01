@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WebDemo.Models.Products>
+﻿@model PagedList.IPagedList<WebDemo.Models.Products>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -13,7 +14,7 @@
                 <div class="breadcrumb__text">
                     <h2>Organi Shop</h2>
                     <div class="breadcrumb__option">
-                        <a href="./index.html">Trang chủ</a>
+                        <a href="/">Trang chủ</a>
                         <span>Shop</span>
                     </div>
                 </div>
@@ -39,18 +40,22 @@
                         <h4>Giá</h4>
                         <div class="price-range-wrap">
                             <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                 data-min="1000" data-max="500000">
+                                 data-min="1000" data-max="500000" id="price-range-data">
                                 <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
                                 <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                                 <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                             </div>
                             <div class="range-slider">
                                 <div class="price-input">
-                                    <input type="text" id="minamount">
-                                    <input type="text" id="maxamount">
+                                    <input type="text" id="minamount" value="@ViewBag.MinPrice">
+                                    <input type="text" id="maxamount" value="@ViewBag.MaxPrice">
+                                </div>
+
+                                <div class="Button">
+                                    <button type="button" class="btn btn-danger" id="filterPrice">Lọc</button>
+                                 </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
 
 
@@ -76,7 +81,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="filter__found">
-                                <h6><span>@Model.Count()</span> sản phẩm hiện có</h6>
+                                <h6><span>@ViewBag.TotalProduct</span> sản phẩm hiện có</h6>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-3">
@@ -109,10 +114,8 @@
                     }
                 </div>
                 <div class="product__pagination">
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+     new { page, sortBy = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice }))
                 </div>
             </div>
         </div>
@@ -124,13 +127,46 @@
     <script>
     $(document).ready(function() {
         // Sự kiện khi thay đổi giá trị của dropdown "Sắp xếp theo"
-        function getProduct() {
-            var sortBy = $("#sortBySelect").val();
-           window.location.href = '@Url.Action("Index", "Shop")?sortBy=' + sortBy;
-        }
-        $("#sortBySelect").change(function() {
-            getProduct()
+        let linkUrl = '@Url.Action("Index", "Shop")?page=' + @ViewBag.page;
+        let sortBy = '@ViewBag.Sort';
+        let minPrice = '@ViewBag.MinPrice';
+        let maxPrice = '@ViewBag.MaxPrice';
+
+        var rangeSlider = $(".price-range"),
+            minamount = $("#minamount"),
+            maxamount = $("#maxamount"),
+            minPriceSlider = rangeSlider.data('min'),
+            maxPriceSlider = rangeSlider.data('max');
+        rangeSlider.slider({
+            range: true,
+            min: minPriceSlider,
+            max: maxPriceSlider,
+            values: [minPrice, maxPrice],
+            slide: function (event, ui) {
+                minamount.val(ui.values[0] + " VND");
+                maxamount.val(ui.values[1] + " VND");
+            }
         });
+
+        const changeSlider = () => {
+            minamount.val(rangeSlider.slider("values", 0));
+            maxamount.val(rangeSlider.slider("values", 1));
+            minPrice = $("#minamount").val();
+            maxPrice = $("#maxamount").val();
+            
+
+            sortBy = $("#sortBySelect").val();
+            window.location.href = linkUrl + '&sortBy=' + sortBy + '&minPrice=' + minPrice + '&maxPrice=' + maxPrice;
+        }
+
+        $("#sortBySelect").change(function() {
+            changeSlider();
+        });
+
+        $("#filterPrice").click(function () {
+            changeSlider();
+        });
+
 
     });
     </script>

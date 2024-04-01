@@ -40,16 +40,16 @@
                         <div class="header__top__left">
                             <ul>
                                 <li><i class="fa fa-envelope"></i> whoami@gmail.com</li>
-                                    @{
-                                        if (User.Identity.IsAuthenticated)
-                                        {
-                                            <li>Xin chào: @User.Identity.Name <i class="fa fa-heart-o"></i></li>
-                                        }
-                                        else
-                                        {
-                                            <li>Bạn chưa đăng nhập, hãy đăng nhập để đặt hàng.</li>
-                                        }
+                                @{
+                                    if (User.Identity.IsAuthenticated)
+                                    {
+                                        <li>Xin chào: @User.Identity.Name <i class="fa fa-heart-o"></i></li>
                                     }
+                                    else
+                                    {
+                                        <li>Bạn chưa đăng nhập, hãy đăng nhập để đặt hàng.</li>
+                                    }
+                                }
                             </ul>
                         </div>
                     </div>
@@ -139,6 +139,7 @@
     <div class="content">
         @RenderBody()
     </div>
+
 
 
     <!-- Footer Section Begin -->

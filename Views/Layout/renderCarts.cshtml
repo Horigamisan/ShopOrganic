@@ -2,20 +2,36 @@
 
 <div class="header__cart">
     <ul>
-        <li><a href="/lich-su-mua-hang">
-        <i class="fa fa-user-circle"></i>
-        <span>
-            @{
-                var numHistory = ViewBag.OrderHistory == null ? 0 : ViewBag.OrderHistory;
-                @numHistory
-            }
-        </span>
-        </a></li>
+        <li>
+            <a href="#">
+                <i class="fa fa-heart"></i>
+                <span>
+                    0
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/lich-su-mua-hang">
+                <i class="fa fa-user-circle"></i>
+                <span>
+                    @{
+                        var numHistory = ViewBag.OrderHistory == null ? 0 : ViewBag.OrderHistory;
+                        @numHistory
+                    }
+                </span>
+            </a>
+        </li>
 
-        <li><a href="/gio-hang"><i class="fa fa-shopping-bag"></i> <span>@{ 
-            var numShopping = Model == null ? 0 : Model.Count();
-            @numShopping
-        }</span></a></li>
+        <li>
+            <a href="/gio-hang">
+                <i class="fa fa-shopping-bag"></i> <span>
+                    @{
+                        var numShopping = Model == null ? 0 : Model.Count();
+                        @numShopping
+                }
+            </span>
+        </a>
+    </li>
     </ul>
     <div class="header__cart__price">Sản phẩm: <span>
     @{
