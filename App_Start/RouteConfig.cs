@@ -65,6 +65,30 @@ namespace WebDemo
               namespaces: new[] { "WebDemo.Controllers" });
 
             routes.MapRoute(
+                name: "Login",
+                url: "tai-khoan/dang-nhap",
+                defaults: new { controller = "Account", action = "Login" }
+            );
+
+            routes.MapRoute(
+                name: "Register",
+                url: "tai-khoan/dang-ky",
+                defaults: new { controller = "Account", action = "Register" }
+            );
+
+            routes.MapRoute(
+                name: "Logout",
+                url: "tai-khoan/dang-xuat",
+                defaults: new { controller = "Account", action = "LogOut" }
+            );
+
+            routes.MapRoute(
+                name: "ExternalLoginConfirmation",
+                url: "tai-khoan/xac-nhan-OAuth",
+                defaults: new { controller = "Account", action = "ExternalLoginConfirmation" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional },

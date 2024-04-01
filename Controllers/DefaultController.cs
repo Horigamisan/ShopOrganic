@@ -10,7 +10,7 @@ namespace WebDemo.Controllers
 {
     public class DefaultController : Controller
     {
-        ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
 
         // GET: Default
         public ActionResult Index()

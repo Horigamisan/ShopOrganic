@@ -131,6 +131,7 @@
         let sortBy = '@ViewBag.Sort';
         let minPrice = '@ViewBag.MinPrice';
         let maxPrice = '@ViewBag.MaxPrice';
+        let searchString = '@ViewBag.CurrentFilter';
 
         var rangeSlider = $(".price-range"),
             minamount = $("#minamount"),
@@ -153,10 +154,8 @@
             maxamount.val(rangeSlider.slider("values", 1));
             minPrice = $("#minamount").val();
             maxPrice = $("#maxamount").val();
-            
-
             sortBy = $("#sortBySelect").val();
-            window.location.href = linkUrl + '&sortBy=' + sortBy + '&minPrice=' + minPrice + '&maxPrice=' + maxPrice;
+            window.location.href = linkUrl + '&sortBy=' + sortBy + '&minPrice=' + minPrice + '&maxPrice=' + maxPrice + (searchString == "" ? "" : '&currentFilter=' + searchString);
         }
 
         $("#sortBySelect").change(function() {

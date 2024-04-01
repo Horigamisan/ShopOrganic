@@ -6,16 +6,21 @@
 
 <hr />
 
-<div class="container">
-    <h2>@ViewBag.Title.</h2>
+<div class="container mb-5 border border-success rounded p-5" id="targetScroll">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-12">
+            <div class="mb-5">
+                <h2 class="display-5 fw-bold text-center">@ViewBag.Title</h2>
+                <p class="text-center m-0">Chưa có tài khoản? <a href="/tai-khoan/dang-ky">Đăng ký ngay!</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
             <section id="loginForm">
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    <h4>Sử dụng tài khoản đã đăng ký để đăng nhập</h4>
-                    <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -25,7 +30,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                        <label class="col-md-3 control-label" for="Password">Mật khẩu</label>
                         <div class="col-md-10">
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
@@ -44,17 +49,20 @@
                             <input type="submit" value="Đăng nhập" class="btn btn-outline-success" />
                         </div>
                     </div>
-                    <p>
-                        @Html.ActionLink("Đăng ký người dùng mới", "Register")
+                    <p class="ml-3">
+                        @Html.ActionLink("Quên mật khẩu?", "ForgotPassword")
                     </p>
-                    @* Enable this once you have account confirmation enabled for password reset functionality
-                        <p>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>*@
                 }
             </section>
         </div>
-        <div class="col-md-4">
+        <div class="col-2 col-lg-2 d-flex align-items-center justify-content-center gap-3 flex-lg-column">
+            <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
+            <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
+            <div>or</div>
+            <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
+            <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
+        </div>
+        <div class="col-md-5">
             <section id="socialLoginForm">
                 @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
             </section>
@@ -63,6 +71,23 @@
 
 </div>
 
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+  // Khi trang được load, cuộn đến phần tử target
+  window.addEventListener('load', function() {
+    // Lấy tham chiếu đến phần tử cần cuộn
+      var targetElement = document.getElementById('targetScroll');
+
+    // Cuộn phần tử vào giữa màn hình
+    targetElement.scrollIntoView({
+      behavior: 'smooth', // Cuộn mượt
+      block: 'center',    // Cuộn để phần tử ở giữa chiều dọc
+      inline: 'center'    // Cuộn để phần tử ở giữa chiều ngang
+    });
+  });
+    </script>
 }

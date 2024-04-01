@@ -9,7 +9,7 @@ namespace WebDemo.Controllers
 {
     public class LayoutController : Controller
     {
-        ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         // GET: Layout
         public ActionResult Index()
         {

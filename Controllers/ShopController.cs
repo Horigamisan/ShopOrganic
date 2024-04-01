@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using WebDemo.Models;
 using PagedList;
 using System.Data.SqlClient;
+using WebDemo.Helper;
 
 namespace WebDemo.Controllers
 {
@@ -32,15 +33,6 @@ namespace WebDemo.Controllers
             }
             ViewBag.CurrentFilter = searchString;
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                productList = db.Products.Where(p => p.name.Contains(searchString) || p.description.Contains(searchString));
-            }
-            else
-            {
-                productList = db.Products;
-            }
-
             switch (sortBy)
             {
                 case "newProduct":
@@ -65,13 +57,24 @@ namespace WebDemo.Controllers
                     break;
             }
 
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                string newText = NormalizeTwoTextVN.Normalize(searchString);
+                productList = productList.Where(p =>
+                        (p.name != null && NormalizeTwoTextVN.Normalize(p.name).Contains(newText)) ||
+                        (p.description != null && NormalizeTwoTextVN.Normalize(p.description).Contains(newText))
+                        );
+            }
+
             if (minPrice != null && maxPrice != null)
             {
                 productList = productList.Where(p => p.price >= minPrice && p.price <= maxPrice);
             }
 
+
+
             ViewBag.Sort = sortBy;
-            int pageSize = 5;
+            int pageSize = 6;
             int pageNumber = (page ?? 1);
             ViewBag.Page = pageNumber;
             ViewBag.TotalProduct = productList.Count();
