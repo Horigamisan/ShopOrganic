@@ -4,6 +4,9 @@ using Microsoft.Owin;
 using Owin;
 using System.Linq;
 using WebDemo.Models;
+using System.Configuration;
+using Stripe;
+using Stripe.Checkout;
 
 [assembly: OwinStartupAttribute(typeof(WebDemo.Startup))]
 namespace WebDemo
@@ -13,6 +16,11 @@ namespace WebDemo
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            // Truy cập giá trị khóa API từ cấu hình
+            string stripeApiKey = ConfigurationManager.AppSettings["StripeApiKey"];
+
+            // Đặt khóa API của Stripe
+            StripeConfiguration.ApiKey = stripeApiKey;
             PopulateUserAndRoles();
         }
 
