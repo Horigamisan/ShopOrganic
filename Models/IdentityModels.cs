@@ -27,7 +27,7 @@ namespace WebDemo.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("ShopOnlineContext", throwIfV1Schema: false)
+            : base("ShopOnlineContextDB", throwIfV1Schema: false)
         {
         }
 
