@@ -1051,10 +1051,6 @@
     <Content Include="Areas\admin\Content\ckfinder\plugins\dummy\lang\en.js" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\dummy\lang\pl.js" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\dummy\plugin.js" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\fileeditor\bin\Debug\CKFinder_FileEditor.dll" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\fileeditor\bin\Debug\CKFinder_FileEditor.pdb" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\fileeditor\bin\Release\CKFinder_FileEditor.dll" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\fileeditor\bin\Release\CKFinder_FileEditor.pdb" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\fileeditor\codemirror\lib\codemirror.css" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\fileeditor\codemirror\lib\codemirror.js" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\fileeditor\codemirror\mode\clike\clike.js" />
