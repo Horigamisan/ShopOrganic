@@ -686,7 +686,6 @@
     <Content Include="Areas\admin\Content\ckeditor\skins\moono-lisa\images\refresh.png" />
     <Content Include="Areas\admin\Content\ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="Areas\admin\Content\ckeditor\styles.js" />
-    <Content Include="Areas\admin\Content\ckfinder\bin\Release\CKFinder.dll" />
     <Content Include="Areas\admin\Content\ckfinder\changelog.txt" />
     <Content Include="Areas\admin\Content\ckfinder\ckfinder.html" />
     <Content Include="Areas\admin\Content\ckfinder\ckfinder.js" />
@@ -3397,7 +3396,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\admin\Content\ckfinder\bin\Debug\" />
     <Folder Include="Areas\admin\Data\" />
   </ItemGroup>
   <ItemGroup>
