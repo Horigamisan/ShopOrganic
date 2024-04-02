@@ -1078,16 +1078,8 @@
     <Content Include="Areas\admin\Content\ckfinder\plugins\gallery\colorbox\jquery.colorbox-min.js" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\gallery\colorbox\jquery.min.js" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\gallery\colorbox\license.txt" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\imageresize\bin\Debug\CKFinder_ImageResize.dll" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\imageresize\bin\Debug\CKFinder_ImageResize.pdb" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\imageresize\bin\Release\CKFinder_ImageResize.dll" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\imageresize\bin\Release\CKFinder_ImageResize.pdb" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\imageresize\images\mini.gif" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\imageresize\plugin.js" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\watermark\bin\Debug\CKFinder_Watermark.dll" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\watermark\bin\Debug\CKFinder_Watermark.pdb" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\watermark\bin\Release\CKFinder_Watermark.dll" />
-    <Content Include="Areas\admin\Content\ckfinder\plugins\watermark\bin\Release\CKFinder_Watermark.pdb" />
     <Content Include="Areas\admin\Content\ckfinder\plugins\watermark\logo.gif" />
     <Content Include="Areas\admin\Content\ckfinder\skins\kama\app.css" />
     <Content Include="Areas\admin\Content\ckfinder\skins\kama\host.css" />
