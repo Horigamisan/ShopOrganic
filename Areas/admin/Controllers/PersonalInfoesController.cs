@@ -13,7 +13,7 @@ namespace WebDemo.Areas.admin.Controllers
     [Authorize(Roles = "Admin")]
     public class PersonalInfoesController : Controller
     {
-        private ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
 
         // GET: admin/PersonalInfoes
         public ActionResult Index()

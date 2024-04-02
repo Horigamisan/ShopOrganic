@@ -83,9 +83,9 @@ namespace WebDemo
             );
 
             routes.MapRoute(
-                name: "ExternalLoginConfirmation",
+                name: "ExternalLoginCallback",
                 url: "tai-khoan/xac-nhan-OAuth",
-                defaults: new { controller = "Account", action = "ExternalLoginConfirmation" }
+                defaults: new { controller = "Account", action = "ExternalLoginCallback" }
             );
 
             routes.MapRoute(
