@@ -1,26 +1,52 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using WebDemo.Models;
 
 namespace WebDemo.Controllers
 {
     public class BlogController : Controller
     {
-        ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
 
         // GET: admin/Blog
-        public ActionResult Index()
+        public ActionResult Index(int? page, string meta)
         {
-            return View();
+            ViewBag.page = page;
+            ViewBag.meta = meta;
+            var model = db.BlogCategories.Where(x => x.hide == false).Where(x => x.meta == meta).FirstOrDefault();
+            return View(model);
         }
 
-        public ActionResult getBlogs()
+        public ActionResult getBlogs(string currentFilter, string searchString, int? page, int id, string title)
         {
-            var model = db.Blogs.Where(x => x.hide == false);
-            return PartialView(model);
+            var model = db.Blogs.Where(x => x.hide == false).OrderByDescending(x => x.order).ToList();
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (id != 0 || title != "Tất cả")
+            {
+                model = db.Blogs.Where(x => x.hide == false).Where(x => x.categoryid == id).OrderByDescending(x => x.order).ToList();
+            }
+                
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            ViewBag.title = title;
+            ViewBag.Page = pageNumber;
+
+            return PartialView(model.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult getBlogCategories()

@@ -3,10 +3,10 @@
 <div class="blog__sidebar__item">
     <h4>Thể loại Blog</h4>
     <ul>
-        <li><a href="#">Tất cả</a></li>
+        <li><a href="/blog">Tất cả</a></li>
         @foreach (var i in Model)
         {
-            <li><a href="blog/@i.meta">@i.name</a></li>
+            <li><a href="/blog/@i.meta">@i.name</a></li>
         }
     </ul>
 </div>

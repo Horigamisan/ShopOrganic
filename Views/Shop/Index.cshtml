@@ -113,7 +113,7 @@
                         }
                     }
                 </div>
-                <div class="product__pagination">
+                <div class="product__pagination d-flex justify-content-center mt-5">
                     @Html.PagedListPager(Model, page => Url.Action("Index",
      new { page, sortBy = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice }))
                 </div>
