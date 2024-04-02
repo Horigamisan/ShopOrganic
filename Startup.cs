@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using System.Configuration;
 using System.Linq;
 using WebDemo.Models;
 
@@ -44,7 +45,7 @@ namespace WebDemo
                     Email = "admin@gmail.com"
                 };
 
-                userManager.Create(newUser, "appadmin");
+                userManager.Create(newUser, ConfigurationManager.AppSettings["AdminPassword"]);
                 userManager.AddToRole(newUser.Id, "Admin");
                 
                 db.SaveChanges();

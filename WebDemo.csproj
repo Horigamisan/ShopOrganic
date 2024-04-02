@@ -39,6 +39,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="ShopOnlineEntities-Deployment" Order="1">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=NGUYENPHUC\TRONGPHUC%3bInitial Catalog=FinalProject_NET%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\ShopOnlineEntities-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -675,8 +686,6 @@
     <Content Include="Areas\admin\Content\ckeditor\skins\moono-lisa\images\refresh.png" />
     <Content Include="Areas\admin\Content\ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="Areas\admin\Content\ckeditor\styles.js" />
-    <Content Include="Areas\admin\Content\ckfinder\bin\Debug\CKFinder.dll" />
-    <Content Include="Areas\admin\Content\ckfinder\bin\Debug\CKFinder.pdb" />
     <Content Include="Areas\admin\Content\ckfinder\bin\Release\CKFinder.dll" />
     <Content Include="Areas\admin\Content\ckfinder\changelog.txt" />
     <Content Include="Areas\admin\Content\ckfinder\ckfinder.html" />
@@ -685,8 +694,6 @@
     <Content Include="Areas\admin\Content\ckfinder\config.ascx" />
     <Content Include="Areas\admin\Content\ckfinder\config.js" />
     <Content Include="Areas\admin\Content\ckfinder\core\connector\aspx\connector.aspx" />
-    <Content Include="Areas\admin\Content\ckfinder\core\connector\aspx\Images\hoc-vien\hoai.jpg" />
-    <Content Include="Areas\admin\Content\ckfinder\core\connector\aspx\Images\hoc-vien\mi-hanh.jpg" />
     <Content Include="Areas\admin\Content\ckfinder\core\connector\aspx\lang\bg.xml" />
     <Content Include="Areas\admin\Content\ckfinder\core\connector\aspx\lang\ca.xml" />
     <Content Include="Areas\admin\Content\ckfinder\core\connector\aspx\lang\cs.xml" />
@@ -3251,6 +3258,7 @@
     <Content Include="Areas\admin\Views\PersonalInfoes\Details.cshtml" />
     <Content Include="Areas\admin\Views\PersonalInfoes\Edit.cshtml" />
     <Content Include="Areas\admin\Views\PersonalInfoes\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\ShopOrganicAzureWeb - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -3389,6 +3397,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\admin\Content\ckfinder\bin\Debug\" />
     <Folder Include="Areas\admin\Data\" />
   </ItemGroup>
   <ItemGroup>

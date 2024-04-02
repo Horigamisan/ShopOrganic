@@ -1,5 +1,5 @@
 <%@ Page Language="c#" Inherits="CKFinder.Connector.Connector" Trace="false" AutoEventWireup="false" %>
-<%@ Register Src="/Areas/Admin/assets/plugin/ckfinder/config.ascx" TagName="Config" TagPrefix="CKFinder" %>
+<%@ Register Src="../../../config.ascx" TagName="Config" TagPrefix="CKFinder" %>
 <%--
  * CKFinder
  * ========
