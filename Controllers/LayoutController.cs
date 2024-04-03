@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using WebDemo.Models;
 using System.Web.Mvc;
+using System.Web.Helpers;
+using System.Data.Entity;
 
 namespace WebDemo.Controllers
 {
@@ -50,8 +52,11 @@ namespace WebDemo.Controllers
             }
             var userId = db.AspNetUsers.Where(x => x.Email == emailUser).FirstOrDefault().Id;
             var model = db.Carts.Where(x => x.UserID == userId && x.Status != "Huỷ" && x.Status != "Đã thanh toán");
-            var orderHistory = db.Orders.Where(x => x.UserID == userId);
-                ViewBag.Products = db.Products.ToList();
+            var orderHistory = db.Orders.Where(x => x.UserID == userId && x.PaymentStatus == "Đã thanh toán").ToList();
+            ViewBag.Products = db.Products.ToList();
+            var favoriteProducts = db.Favorites.Where(i => i.AspNetUsers.Email == emailUser).ToList();
+            var products = favoriteProducts.Select(fp => fp.Products).ToList();
+            ViewBag.FavoriteProducts = products.Count();
             ViewBag.OrderHistory = orderHistory.Count();
             return PartialView(model);
         }

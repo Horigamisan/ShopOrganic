@@ -94,7 +94,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-                               aria-selected="false">Reviews (1)</a>
+                               aria-selected="false">Reviews</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -141,11 +141,11 @@
         $(document).ready(function() {
           $("#AddToCarts").click(function(e) {
             e.preventDefault();
-            var productId = @Model.id
+            var productId = @Model.id;
             var quantity = document.querySelector(".pro-qty input").value;
 
             $.ajax({
-              url: '@Url.Action("AddToCarts", "Carts")', // Thay thế "ControllerName" bằng tên controller thực tế
+              url: '@Url.Action("AddToCarts", "Carts")',
               type: 'POST',
               data: { productId: productId, quantity: quantity },
               success: function(result) {

@@ -12,17 +12,12 @@ namespace WebDemo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Banner
+    public partial class sysdiagrams
     {
-        public int id { get; set; }
         public string name { get; set; }
-        public string img { get; set; }
-        public string description { get; set; }
-        public string main_description { get; set; }
-        public string detail { get; set; }
-        public string meta { get; set; }
-        public Nullable<bool> hide { get; set; }
-        public Nullable<int> order { get; set; }
-        public Nullable<System.DateTime> datebegin { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

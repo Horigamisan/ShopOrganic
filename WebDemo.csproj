@@ -263,6 +263,9 @@
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Favorites.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListCategories.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -300,6 +303,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RoleViewModel.cs" />
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UsefulLinks.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -3395,6 +3401,7 @@
     <Content Include="Views\Shop\ListCategory.cshtml" />
     <Content Include="Views\Shop\getLastestProduct.cshtml" />
     <Content Include="Views\Layout\getSearchCategory.cshtml" />
+    <Content Include="Views\Product\GetFavoriteProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

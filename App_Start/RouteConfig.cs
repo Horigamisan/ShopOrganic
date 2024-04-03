@@ -43,6 +43,11 @@ namespace WebDemo
                 new RouteValueDictionary(new { type = "gio-hang" }),
                 namespaces: new[] { "WebDemo.Controllers" });
 
+            routes.MapRoute("FavoriteItem", "{type}",
+                new { controller = "Product", action = "GetFavoriteProduct", meta = UrlParameter.Optional },
+                new RouteValueDictionary(new { type = "san-pham-yeu-thich" }),
+                namespaces: new[] { "WebDemo.Controllers" });
+
             routes.MapRoute("Product", "{type}/{meta}",
                 new { controller = "Product", action = "Index", meta = UrlParameter.Optional },
                 new RouteValueDictionary(new { type = "san-pham" }),

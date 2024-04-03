@@ -71,7 +71,13 @@ namespace WebDemo.Controllers
                 productList = productList.Where(p => p.price >= minPrice && p.price <= maxPrice);
             }
 
-
+            var email = User.Identity.Name;
+            if (email != null)
+            {
+                var favoriteProducts = db.Favorites.Where(i => i.AspNetUsers.Email == email).ToList();
+                var products = favoriteProducts.Select(fp => fp.Products).ToList();
+                ViewBag.products = products.Select(x => x.id).ToList();
+            }
 
             ViewBag.Sort = sortBy;
             int pageSize = 6;

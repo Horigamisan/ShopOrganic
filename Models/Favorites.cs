@@ -12,17 +12,13 @@ namespace WebDemo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Banner
+    public partial class Favorites
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string img { get; set; }
-        public string description { get; set; }
-        public string main_description { get; set; }
-        public string detail { get; set; }
-        public string meta { get; set; }
-        public Nullable<bool> hide { get; set; }
-        public Nullable<int> order { get; set; }
-        public Nullable<System.DateTime> datebegin { get; set; }
+        public int Id { get; set; }
+        public string UserID { get; set; }
+        public int ProductID { get; set; }
+    
+        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual Products Products { get; set; }
     }
 }

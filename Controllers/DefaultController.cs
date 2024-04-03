@@ -35,6 +35,15 @@ namespace WebDemo.Controllers
         {
             ViewBag.meta = meta;
             var model = db.Products.Where(x => x.hide == false).Where(x => x.categoryid == id).OrderByDescending(x => x.order).ToList();
+
+            var email = User.Identity.Name;
+            if (email != null)
+            {
+                var favoriteProducts = db.Favorites.Where(i => i.AspNetUsers.Email == email).ToList();
+                var products = favoriteProducts.Select(fp => fp.Products).ToList();
+                ViewBag.products = products.Select(x => x.id).ToList();
+            }
+
             return PartialView(model);
         }
 

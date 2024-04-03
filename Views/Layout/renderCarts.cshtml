@@ -3,10 +3,13 @@
 <div class="header__cart">
     <ul>
         <li>
-            <a href="#">
+            <a href="/san-pham-yeu-thich">
                 <i class="fa fa-heart"></i>
                 <span>
-                    0
+                    @{
+                        var numFavorite = ViewBag.FavoriteProducts == null ? 0 : ViewBag.FavoriteProducts;
+                        @numFavorite
+                    }
                 </span>
             </a>
         </li>
