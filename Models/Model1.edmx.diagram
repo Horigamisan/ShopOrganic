@@ -29,6 +29,7 @@
         <EntityTypeShape EntityType="ShopOnlineModel.Orders" Width="1.5" PointX="13.125" PointY="10.75" />
         <AssociationConnector Association="ShopOnlineModel.FK__Orders__UserID__367C1819" />
         <AssociationConnector Association="ShopOnlineModel.FK__OrderProd__Order__37703C52" />
+        <AssociationConnector Association="ShopOnlineModel.Favorites" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

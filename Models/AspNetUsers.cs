@@ -22,6 +22,7 @@ namespace WebDemo.Models
             this.AspNetRoles = new HashSet<AspNetRoles>();
             this.Carts = new HashSet<Carts>();
             this.Orders = new HashSet<Orders>();
+            this.Products = new HashSet<Products>();
         }
     
         public string Id { get; set; }
@@ -47,5 +48,7 @@ namespace WebDemo.Models
         public virtual ICollection<Carts> Carts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Products> Products { get; set; }
     }
 }

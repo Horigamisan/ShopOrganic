@@ -123,6 +123,14 @@
           <Property Name="Price" Type="float" />
           <Property Name="Status" Type="nvarchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="Favorites">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ListCategories">
           <Key>
             <PropertyRef Name="id" />
@@ -222,7 +230,7 @@
           <Property Name="order" Type="int" />
           <Property Name="datebegin" Type="smalldatetime" />
         </EntityType>
-        <Association Name="FK__Carts__ProductID__2A164134">
+        <Association Name="FK__Carts__ProductID__3F466844">
           <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
           <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -234,7 +242,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Carts__UserID__29221CFB">
+        <Association Name="FK__Carts__UserID__3E52440B">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -246,7 +254,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderProd__Order__37703C52">
+        <Association Name="FK__OrderProd__Order__45F365D3">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
           <ReferentialConstraint>
@@ -258,7 +266,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderProd__Produ__339FAB6E">
+        <Association Name="FK__OrderProd__Produ__44FF419A">
           <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
           <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
           <ReferentialConstraint>
@@ -270,7 +278,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__UserID__367C1819">
+        <Association Name="FK__Orders__UserID__4222D4EF">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -338,6 +346,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Favorites_Product">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Favorites" Type="Self.Favorites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Favorites">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorites_User">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Favorites" Type="Self.Favorites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Favorites">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ShopOnlineModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -349,6 +385,7 @@
           <EntitySet Name="BlogCategories" EntityType="Self.BlogCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Blogs" EntityType="Self.Blogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Carts" EntityType="Self.Carts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Favorites" EntityType="Self.Favorites" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListCategories" EntityType="Self.ListCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="menu" EntityType="Self.menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderProduct" EntityType="Self.OrderProduct" Schema="dbo" store:Type="Tables" />
@@ -356,23 +393,23 @@
           <EntitySet Name="PersonalInfo" EntityType="Self.PersonalInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsefulLinks" EntityType="Self.UsefulLinks" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Carts__ProductID__2A164134" Association="Self.FK__Carts__ProductID__2A164134">
+          <AssociationSet Name="FK__Carts__ProductID__3F466844" Association="Self.FK__Carts__ProductID__3F466844">
             <End Role="Products" EntitySet="Products" />
             <End Role="Carts" EntitySet="Carts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Carts__UserID__29221CFB" Association="Self.FK__Carts__UserID__29221CFB">
+          <AssociationSet Name="FK__Carts__UserID__3E52440B" Association="Self.FK__Carts__UserID__3E52440B">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Carts" EntitySet="Carts" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderProd__Order__37703C52" Association="Self.FK__OrderProd__Order__37703C52">
+          <AssociationSet Name="FK__OrderProd__Order__45F365D3" Association="Self.FK__OrderProd__Order__45F365D3">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderProduct" EntitySet="OrderProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderProd__Produ__339FAB6E" Association="Self.FK__OrderProd__Produ__339FAB6E">
+          <AssociationSet Name="FK__OrderProd__Produ__44FF419A" Association="Self.FK__OrderProd__Produ__44FF419A">
             <End Role="Products" EntitySet="Products" />
             <End Role="OrderProduct" EntitySet="OrderProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__UserID__367C1819" Association="Self.FK__Orders__UserID__367C1819">
+          <AssociationSet Name="FK__Orders__UserID__4222D4EF" Association="Self.FK__Orders__UserID__4222D4EF">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
@@ -391,6 +428,14 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorites_Product" Association="Self.FK_Favorites_Product">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Favorites" EntitySet="Favorites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorites_User" Association="Self.FK_Favorites_User">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Favorites" EntitySet="Favorites" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -470,6 +515,10 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderProduct" EntitySet="OrderProduct" />
           </AssociationSet>
+          <AssociationSet Name="Favorites" Association="ShopOnlineModel.Favorites">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Banner">
           <Key>
@@ -511,6 +560,7 @@
           <Property Name="review_comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Carts" Relationship="ShopOnlineModel.FK__Carts__ProductID__2A164134" FromRole="Products" ToRole="Carts" />
           <NavigationProperty Name="OrderProduct" Relationship="ShopOnlineModel.FK__OrderProd__Produ__339FAB6E" FromRole="Products" ToRole="OrderProduct" />
+          <NavigationProperty Name="AspNetUsers" Relationship="ShopOnlineModel.Favorites" FromRole="Products" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="ListCategories">
           <Key>
@@ -630,6 +680,7 @@
           <NavigationProperty Name="AspNetRoles" Relationship="ShopOnlineModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Carts" Relationship="ShopOnlineModel.FK__Carts__UserID__29221CFB" FromRole="AspNetUsers" ToRole="Carts" />
           <NavigationProperty Name="Orders" Relationship="ShopOnlineModel.FK__Orders__UserID__367C1819" FromRole="AspNetUsers" ToRole="Orders" />
+          <NavigationProperty Name="Products" Relationship="ShopOnlineModel.Favorites" FromRole="AspNetUsers" ToRole="Products" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="ShopOnlineModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
@@ -763,6 +814,10 @@
               <PropertyRef Name="OrderID" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="Favorites">
+          <End Type="ShopOnlineModel.Products" Role="Products" Multiplicity="*" />
+          <End Type="ShopOnlineModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -1000,6 +1055,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="Favorites" TypeName="ShopOnlineModel.Favorites" StoreEntitySet="Favorites">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserID" />
+            </EndProperty>
+            <EndProperty Name="Products">
+              <ScalarProperty Name="id" ColumnName="ProductID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
