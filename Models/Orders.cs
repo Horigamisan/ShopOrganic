@@ -34,10 +34,5 @@ namespace WebDemo.Models
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderProduct> OrderProduct { get; set; }
-
-        public static implicit operator Order(Orders v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

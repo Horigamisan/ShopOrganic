@@ -33,6 +33,11 @@ namespace WebDemo
                 new RouteValueDictionary(new { type = "thanh-toan" }),
                 namespaces: new[] { "WebDemo.Controllers" });
 
+            routes.MapRoute("StripeWebhook", "{type}",
+               new { controller = "Checkout", action = "StripeWebhook" },
+               new RouteValueDictionary(new { type = "stripe-webhook" }),
+               namespaces: new[] { "WebDemo.Controllers" });
+
             routes.MapRoute("Carts", "{type}/{meta}",
                 new { controller = "Carts", action = "Index", meta = UrlParameter.Optional },
                 new RouteValueDictionary(new { type = "gio-hang" }),
@@ -87,6 +92,7 @@ namespace WebDemo
                 url: "tai-khoan/xac-nhan-OAuth",
                 defaults: new { controller = "Account", action = "ExternalLoginCallback" }
             );
+
 
             routes.MapRoute(
                 name: "Default",
