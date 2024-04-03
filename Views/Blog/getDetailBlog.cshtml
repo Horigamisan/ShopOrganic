@@ -12,9 +12,8 @@
                 <div class="blog__details__hero__text">
                     <h2>@Model.name</h2>
                     <ul>
-                        <li>By @Model.author</li>
+                        <li>Tác giả: @Model.author</li>
                         <li>@Model.dateupload</li>
-                        <li>@Model.comments comments</li>
                     </ul>
                 </div>
             </div>
@@ -23,7 +22,7 @@
 </section>
 
 <!-- Blog Details Section Begin -->
-<section class="blog-details spad">
+<section class="blog-details spad mt-5">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-md-5 order-md-1 order-2">
@@ -39,7 +38,7 @@
                     @{Html.RenderAction("getRecentNews", "Blog");}
                 </div>
             </div>
-            <div class="col-lg-8 col-md-7 order-md-1 order-1">
+            <div class="col-lg-8 col-md-7 order-md-1 order-1 mt-5">
                 <div class="blog__details__text">
                     <img src="~/Uploads/img/blog/@Model.img" alt="" width="500" height="400" class="mx-auto">
                     @Html.Raw(Model.detail)
@@ -54,7 +53,7 @@
                                 </div>
                                 <div class="blog__details__author__text">
                                     <h6>@Model.author</h6>
-                                    <span>Admin</span>
+                                    <span>Người đóng góp</span>
                                 </div>
                             </div>
                         </div>

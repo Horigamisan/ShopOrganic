@@ -9,6 +9,7 @@
 
 namespace WebDemo.Models
 {
+    using Stripe.Climate;
     using System;
     using System.Collections.Generic;
     

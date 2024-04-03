@@ -1,9 +1,29 @@
-﻿@model WebDemo.Models.Blogs
+﻿@model WebDemo.Models.BlogCategories
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MyLayout.cshtml";
 }
+
+<section class="breadcrumb-section set-bg" data-setbg="/Uploads/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Blog</h2>
+                    <div class="breadcrumb__option">
+                        <a href="/">Trang chủ</a>
+                        @{
+                            string text = Model?.name ?? "Tất cả";
+
+                            <span href="/blog/@ViewBag.meta">@text</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <!-- Blog Section Begin -->
 <section class="blog spad">
     <div class="container">
@@ -12,8 +32,8 @@
                 <div class="blog__sidebar">
                     <div class="blog__sidebar__search">
                         <form action="#">
-                            <input type="text" placeholder="Tìm kiếm">
-                            <button type="submit"><span class="icon_search"></span></button>
+                            <input type="text" placeholder="Tìm kiếm" id="txt_blog">
+                            <button type="button" id="btnBlog"><span class="icon_search"></span></button>
                         </form>
                     </div>
                     @{Html.RenderAction("getBlogCategories", "Blog");}
@@ -22,30 +42,42 @@
 
                 </div>
             </div>
-            <div class="col-lg-8 col-md-7">
-                @{Html.RenderAction("getBlogs", "Blog");}
+            <div class="col-lg-8 col-md-7 mt-5">
+                @{Html.RenderAction("getBlogs", "Blog", new { page = ViewBag.page, id = Model?.id ?? 0, title = Model?.name ?? "Tất cả", searchTxt = ViewBag.searchTxt });}
             </div>
         </div>
     </div>
 </section>
 <!-- Blog Section End -->
-<script>
-    // L?y URL c?a trang hi?n t?i
-    var url = window.location.href;
 
-    // Tìm t?t c? các th? <a> trong thanh menu
-    var links = document.querySelectorAll('.header__menu a');
+@section Scripts {
+    <script>
+        // L?y URL c?a trang hi?n t?i
+        var url = window.location.href;
 
-    // Duy?t qua t?ng th? <a>
-    links.forEach(function (link) {
-        // N?u href c?a th? <a> trùng v?i URL c?a trang hi?n t?i
-        if (link.href === url) {
-            // Thêm l?p "active" vào th? <a>
-            link.classList.add('active');
+        // Tìm t?t c? các th? <a> trong thanh menu
+        var links = document.querySelectorAll('.header__menu a');
 
-            // Thêm l?p "active" vào th? cha c?a th? <a>
-            var parent = link.parentElement;
-            parent.classList.add('active');
-        }
-    });
-</script>
+        // Duy?t qua t?ng th? <a>
+        links.forEach(function (link) {
+            // N?u href c?a th? <a> trùng v?i URL c?a trang hi?n t?i
+            if (link.href === url) {
+                // Thêm l?p "active" vào th? <a>
+                link.classList.add('active');
+
+                // Thêm l?p "active" vào th? cha c?a th? <a>
+                var parent = link.parentElement;
+                parent.classList.add('active');
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#btnBlog').click(function () {
+                var txt = $('#txt_blog').val();
+                console.log(txt);
+                window.location.href = '@Url.Action("Index", "Blog")?searchTxt=' + txt;
+            });
+        });
+    </script>
+}
