@@ -4,66 +4,57 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using WebDemo.Models;
+using WebDemo.Repository.Implementations;
+using WebDemo.Repository.Interfaces;
 
 namespace WebDemo.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly IUnitOfWork _unitOfWork = new UnitOfWork();
+
         // GET: Product
         public ActionResult Index(string meta)
         {
-            var model = db.ListCategories.Where(x => x.hide == false).Where(x => x.meta == meta).FirstOrDefault();
+            var model = _unitOfWork.ProductsRepo.GetCategoryByMeta(meta);
             return View(model);
         }
 
-        public ActionResult getProductByCategory(long id, string title)
+        public ActionResult getProductByCategory(int id, string title)
         {
             ViewBag.title = title;
             ViewBag.meta = "san-pham";
-            var model = db.Products.Where(x => x.hide == false).Where(x => x.categoryid == id).ToList();
-
+            var model = _unitOfWork.ProductsRepo.GetProductsByCategory(id);
             var email = User.Identity.Name;
+            
             if (email != null)
             {
-                var favoriteProducts = db.Favorites.Where(i => i.AspNetUsers.Email == email).ToList();
-                var products = favoriteProducts.Select(fp => fp.Products).ToList();
+                var products = _unitOfWork.ProductsRepo.GetFavoriteProductsByEmail(email);
                 ViewBag.products = products.Select(x => x.id).ToList();
             }
 
             return PartialView(model);
         }
 
-        public ActionResult getDetailProduct(long id)
+        public ActionResult getDetailProduct(int id)
         {
-            var model = db.Products.Where(x => x.hide == false && x.id == id).FirstOrDefault();
-            var category = db.ListCategories.Where(x => x.id == model.categoryid).FirstOrDefault();
+            var model = _unitOfWork.ProductsRepo.GetProductById(id);
+            var category = _unitOfWork.ProductsRepo.GetCategoryByProductId(model.categoryid);
             ViewBag.category = category;
-            //var detail = db.DetailProduct.Where(x => x.productid == id).FirstOrDefault();
-            //ViewBag.detail = detail;
             return View(model);
         }
 
-        public ActionResult getRelatedProduct(long id, int categoryid)
+        public ActionResult getRelatedProduct(int id, int categoryId)
         {
             ViewBag.meta = "san-pham";
-            var model = db.Products.Where(x => x.hide == false).Where(x => x.id != id && x.categoryid == categoryid).ToList();
+            var model = _unitOfWork.ProductsRepo.GetRelatedProducts(id, categoryId);
             return PartialView(model);
-        }
-
-        public List<Products> GetProducts()
-        {
-            var email = User.Identity.Name;
-            var favoriteProducts = db.Favorites.Where(i => i.AspNetUsers.Email == email).ToList();
-            var products = favoriteProducts.Select(fp => fp.Products).ToList();
-
-            return products;
         }
 
         [Authorize]
         public ActionResult GetFavoriteProduct()
         {
-            var products = GetProducts();
+            var products = _unitOfWork.ProductsRepo.GetFavoriteProductsByEmail(User.Identity.Name);
             return View(products);
         }
 
@@ -71,17 +62,16 @@ namespace WebDemo.Controllers
         [Authorize]
         public ActionResult UpdateFavoriteProduct(int productId, string returnUrl)
         {
-            var email = User.Identity.Name;
-            var user = db.AspNetUsers.SingleOrDefault(u => u.Email == email);
+            var user = _unitOfWork.UserRepo.GetUserByEmail(User.Identity.Name);
 
             if (user != null)
             {
-                var favoriteProduct = db.Favorites.SingleOrDefault(fp => fp.UserID == user.Id && fp.ProductID == productId);
+                var favoriteProduct = _unitOfWork.FavoriteRepo.GetFavoriteByProductIdAndUId(user.Id, productId);
 
                 if (favoriteProduct != null)
                 {
                     // Nếu sản phẩm đã nằm trong danh sách yêu thích, hãy xóa nó
-                    db.Favorites.Remove(favoriteProduct);
+                    _unitOfWork.FavoriteRepo.Remove(favoriteProduct);
                 }
                 else
                 {
@@ -91,14 +81,14 @@ namespace WebDemo.Controllers
                         UserID = user.Id,
                         ProductID = productId
                     };
-                    db.Favorites.Add(newFavoriteProduct);
+                    _unitOfWork.FavoriteRepo.Add(newFavoriteProduct);
                 }
 
                 // Lưu thay đổi
-                db.SaveChanges();
+                _unitOfWork.Complete();
 
                 // Trả về một phản hồi thành công
-                if (!String.IsNullOrEmpty(returnUrl))
+                if (!string.IsNullOrEmpty(returnUrl))
                     return Redirect(returnUrl);
                 else
                     return RedirectToAction("GetFavoriteProduct");

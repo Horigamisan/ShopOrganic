@@ -6,12 +6,14 @@ using WebDemo.Models;
 using System.Web.Mvc;
 using System.Web.Helpers;
 using System.Data.Entity;
+using WebDemo.Repository.Implementations;
 
 namespace WebDemo.Controllers
 {
     public class LayoutController : Controller
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
         // GET: Layout
         public ActionResult Index()
         {
@@ -50,12 +52,12 @@ namespace WebDemo.Controllers
             {
                 return PartialView();
             }
-            var userId = db.AspNetUsers.Where(x => x.Email == emailUser).FirstOrDefault().Id;
+            var userId = _unitOfWork.UserRepo.GetUserByEmail(emailUser).Id;
             var model = db.Carts.Where(x => x.UserID == userId && x.Status != "Huỷ" && x.Status != "Đã thanh toán");
             var orderHistory = db.Orders.Where(x => x.UserID == userId && x.PaymentStatus == "Đã thanh toán").ToList();
-            ViewBag.Products = db.Products.ToList();
-            var favoriteProducts = db.Favorites.Where(i => i.AspNetUsers.Email == emailUser).ToList();
-            var products = favoriteProducts.Select(fp => fp.Products).ToList();
+            ViewBag.Products = _unitOfWork.ProductsRepo.GetAll().Count();
+
+            var products = _unitOfWork.ProductsRepo.GetFavoriteProductsByEmail(emailUser);
             ViewBag.FavoriteProducts = products.Count();
             ViewBag.OrderHistory = orderHistory.Count();
             return PartialView(model);
