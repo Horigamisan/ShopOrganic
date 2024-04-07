@@ -3259,7 +3259,7 @@
     <Content Include="Areas\admin\Views\PersonalInfoes\Details.cshtml" />
     <Content Include="Areas\admin\Views\PersonalInfoes\Edit.cshtml" />
     <Content Include="Areas\admin\Views\PersonalInfoes\Index.cshtml" />
-    <None Include="Properties\PublishProfiles\ShopOrganicAzureWeb - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\shoporganic - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
