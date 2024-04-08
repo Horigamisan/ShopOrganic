@@ -54,7 +54,7 @@ namespace WebDemo
                 namespaces: new[] { "WebDemo.Controllers" });
 
             routes.MapRoute("Detail", "{type}/{meta}/{id}",
-               new { controller = "Product", action = "getDetailProduct", meta = UrlParameter.Optional },
+               new { controller = "Product", action = "GetDetailProduct", meta = UrlParameter.Optional },
                new RouteValueDictionary(new { type = "san-pham" }),
                namespaces: new[] { "WebDemo.Controllers" });
 

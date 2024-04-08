@@ -8,45 +8,54 @@ using WebDemo.Models;
 using PagedList;
 using System.Data.SqlClient;
 using WebDemo.Helper;
-using WebDemo.Repository.Interfaces;
-using WebDemo.Repository.Implementations;
+using WebDemo.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace WebDemo.Controllers
 {
     public class ShopController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork = new UnitOfWork();
+        private readonly IUserService _userService;
+        private readonly IFavoriteService _favoriteService;
+        private readonly IProductService _productService;
+
+        public ShopController(IUserService userService, IFavoriteService favoriteService, IProductService productService)
+        {
+            _userService = userService;
+            _favoriteService = favoriteService;
+            _productService = productService;
+        }
 
         // GET: Shop
-        public ActionResult Index( string currentFilter, string searchString, int? page, int? minPrice, int? maxPrice, string sortBy = "newProduct")
+        public async Task<ActionResult> Index(FilterShopViewModels models)
         {
             ViewBag.meta = "san-pham";
-            ViewBag.CurrentSort = sortBy;
-            ViewBag.MinPrice = minPrice ?? 1000;
-            ViewBag.MaxPrice = maxPrice ?? 500000;
+            ViewBag.CurrentSort = models.SortBy;
+            ViewBag.MinPrice = models.MinPrice ?? 1000;
+            ViewBag.MaxPrice = models.MaxPrice ?? 500000;
 
-            if (searchString != null)
+            if (models.SearchString != null)
             {
-                page = 1;
+                models.Page = 1;
             }
             else
             {
-                searchString = currentFilter;
+                models.SearchString = models.CurrentFilter;
             }
-            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentFilter = models.SearchString;
 
-            IEnumerable<Products> productList = _unitOfWork.ProductsRepo.GetProductOrderBy(sortBy, searchString, minPrice, maxPrice, page);
+            IEnumerable<Products> productList = await _productService.GetProductOrderBy(models);
 
             var email = User.Identity.Name;
             if (email != null)
             {
-                var products = _unitOfWork.ProductsRepo.GetFavoriteProductsByEmail(email);
+                var products = _favoriteService.GetFavoriteProductsByEmail(email);
                 ViewBag.products = products.Select(x => x.id).ToList();
             }
 
-            ViewBag.Sort = sortBy;
+            ViewBag.Sort = models.SortBy;
             int pageSize = 6;
-            int pageNumber = (page ?? 1);
+            int pageNumber = (models.Page ?? 1);
             ViewBag.Page = pageNumber;
             ViewBag.TotalProduct = productList.Count();
             
@@ -56,14 +65,14 @@ namespace WebDemo.Controllers
         public ActionResult ListCategory()
         {
             ViewBag.meta = "san-pham";
-            var model = _unitOfWork.ProductsRepo.GetCategoriesDesc();
+            var model = _productService.GetCategoriesDesc();
             return PartialView(model);
         }
 
-        public ActionResult getLastestProduct()
+        public ActionResult GetLastestProduct()
         {
             ViewBag.meta = "san-pham";
-            var model = _unitOfWork.ProductsRepo.GetLastestProducts();
+            var model = _productService.GetLastestProducts();
             return PartialView(model);
         }
 

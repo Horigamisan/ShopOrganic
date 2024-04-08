@@ -6,60 +6,86 @@ using WebDemo.Models;
 using System.Web.Mvc;
 using System.Web.Helpers;
 using System.Data.Entity;
-using WebDemo.Repository.Implementations;
+using WebDemo.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace WebDemo.Controllers
 {
     public class LayoutController : Controller
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
-        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
+        private readonly ILayoutService _layoutService;
+        private readonly IProductService _productService;
+        private readonly IUserService _userService;
+        private readonly IFavoriteService _favoriteService;
+        private readonly ICartService _cartService;
+        private readonly IOrdersService _ordersService;
+
+        public LayoutController(ILayoutService layoutService,
+            IProductService productService,
+            IUserService userService,
+            IFavoriteService favoriteService,
+            ICartService cartService,
+            IOrdersService ordersService
+            )
+        {
+            _layoutService = layoutService;
+            _productService = productService;
+            _userService = userService;
+            _favoriteService = favoriteService;
+            _cartService = cartService;
+            _ordersService = ordersService;
+        }
+
         // GET: Layout
         public ActionResult Index()
         {
-            ViewBag.NumberPhone = db.PersonalInfo.Where(x => x.hide == false).FirstOrDefault().phone;
+            ViewBag.NumberPhone = _layoutService.GetPersonalInfo().phone;
             return View();
         }
         
-        public ActionResult getCategory()
+        public ActionResult GetCategory()
         {
             ViewBag.meta = "san-pham";
-            var model = db.ListCategories.Where(x => x.hide == false).OrderByDescending(x => x.order).ToList();
+            var model = _productService.GetCategoriesDesc();
             return PartialView(model);
         }
         
-        public ActionResult getMenu()
+        public ActionResult GetMenu()
         {
-            var model = db.menu.Where(x => x.hide == false).OrderBy(x => x.order).ToList();
+            var model = _layoutService.GetMenu();
             return PartialView(model);
         }
-        public ActionResult getAboutInFooter()
+        public ActionResult GetAboutInFooter()
         {
-            var model = db.PersonalInfo.Where(x => x.hide == false).OrderByDescending(x => x.order).FirstOrDefault();
-            return PartialView(model);
-        }
-
-        public ActionResult getUsefulLinksInFooter()
-        {
-            var model = db.UsefulLinks.Where(x => x.hide == false).OrderByDescending(x => x.order).ToList();
+            var model = _layoutService.GetPersonalInfo();
             return PartialView(model);
         }
 
-        public ActionResult renderCarts()
+        public ActionResult GetUsefulLinksInFooter()
+        {
+            var model = _layoutService.GetUsefulLinks();
+            return PartialView(model);
+        }
+
+        public ActionResult RenderCarts()
         {
             var emailUser = User.Identity.Name;
+            
             if (!User.Identity.IsAuthenticated)
             {
                 return PartialView();
             }
-            var userId = _unitOfWork.UserRepo.GetUserByEmail(emailUser).Id;
-            var model = db.Carts.Where(x => x.UserID == userId && x.Status != "Huỷ" && x.Status != "Đã thanh toán");
-            var orderHistory = db.Orders.Where(x => x.UserID == userId && x.PaymentStatus == "Đã thanh toán").ToList();
-            ViewBag.Products = _unitOfWork.ProductsRepo.GetAll().Count();
+            
+            var user = _userService.GetUserByEmail(emailUser);
+            var model = _cartService.GetUserCart(user.Id);
+            var orderHistory = _ordersService.GetUserOrdersByStatus(user.Id, "Đã thanh toán");
+            var favProducts = _favoriteService.GetFavoriteProductsByEmail(emailUser);
 
-            var products = _unitOfWork.ProductsRepo.GetFavoriteProductsByEmail(emailUser);
-            ViewBag.FavoriteProducts = products.Count();
+            ViewBag.Products = _productService.GetAll().Count();
+            ViewBag.FavoriteProducts = favProducts.Count();
             ViewBag.OrderHistory = orderHistory.Count();
+            
             return PartialView(model);
         }
     }

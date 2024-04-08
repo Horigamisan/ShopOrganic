@@ -1,91 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using WebDemo.Models;
-using WebDemo.Repository.Implementations;
-using WebDemo.Repository.Interfaces;
+using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork = new UnitOfWork();
-
-        // GET: Product
-        public ActionResult Index(string meta)
+        private readonly IUserService _userService;
+        private readonly IFavoriteService _favoriteService;
+        private readonly IProductService _productService;
+        public ProductController(IUserService userService, IFavoriteService favoriteService, IProductService productService)
         {
-            var model = _unitOfWork.ProductsRepo.GetCategoryByMeta(meta);
+            _userService = userService;
+            _favoriteService = favoriteService;
+            _productService = productService;
+        }
+        // GET: Product
+        public async Task<ActionResult> Index(string meta)
+        {
+            var model = await _productService.GetCategoryByMeta(meta);
             return View(model);
         }
 
-        public ActionResult getProductByCategory(int id, string title)
+        public ActionResult GetProductByCategory(int id, string title)
         {
             ViewBag.title = title;
             ViewBag.meta = "san-pham";
-            var model = _unitOfWork.ProductsRepo.GetProductsByCategory(id);
+            
+            var model = _productService.GetProductsByCategory(id);
             var email = User.Identity.Name;
             
             if (email != null)
             {
-                var products = _unitOfWork.ProductsRepo.GetFavoriteProductsByEmail(email);
+                var products = _favoriteService.GetFavoriteProductsByEmail(email);
                 ViewBag.products = products.Select(x => x.id).ToList();
             }
 
             return PartialView(model);
         }
 
-        public ActionResult getDetailProduct(int id)
+        public async Task<ActionResult> GetDetailProduct(int id)
         {
-            var model = _unitOfWork.ProductsRepo.GetProductById(id);
-            var category = _unitOfWork.ProductsRepo.GetCategoryByProductId(model.categoryid);
+            var model = await _productService.GetProductById(id);
+            var category = await _productService.GetCategoryByProductId(model.categoryid);
             ViewBag.category = category;
             return View(model);
         }
 
-        public ActionResult getRelatedProduct(int id, int categoryId)
+        public ActionResult GetRelatedProduct(int id, int categoryId)
         {
             ViewBag.meta = "san-pham";
-            var model = _unitOfWork.ProductsRepo.GetRelatedProducts(id, categoryId);
+            var model = _productService.GetRelatedProducts(id, categoryId);
             return PartialView(model);
         }
 
         [Authorize]
         public ActionResult GetFavoriteProduct()
         {
-            var products = _unitOfWork.ProductsRepo.GetFavoriteProductsByEmail(User.Identity.Name);
+            var products = _favoriteService.GetFavoriteProductsByEmail(User.Identity.Name);
             return View(products);
         }
 
         //update fav 
         [Authorize]
-        public ActionResult UpdateFavoriteProduct(int productId, string returnUrl)
+        public async Task<ActionResult> UpdateFavoriteProduct(int productId, string returnUrl)
         {
-            var user = _unitOfWork.UserRepo.GetUserByEmail(User.Identity.Name);
+            var user = _userService.GetUserByEmail(User.Identity.Name);
 
             if (user != null)
             {
-                var favoriteProduct = _unitOfWork.FavoriteRepo.GetFavoriteByProductIdAndUId(user.Id, productId);
-
-                if (favoriteProduct != null)
-                {
-                    // Nếu sản phẩm đã nằm trong danh sách yêu thích, hãy xóa nó
-                    _unitOfWork.FavoriteRepo.Remove(favoriteProduct);
-                }
-                else
-                {
-                    // Nếu sản phẩm chưa nằm trong danh sách yêu thích, hãy thêm nó vào
-                    var newFavoriteProduct = new Favorites
-                    {
-                        UserID = user.Id,
-                        ProductID = productId
-                    };
-                    _unitOfWork.FavoriteRepo.Add(newFavoriteProduct);
-                }
-
-                // Lưu thay đổi
-                _unitOfWork.Complete();
+                await _favoriteService.UpdateFavoriteProduct(user.Id, productId);
 
                 // Trả về một phản hồi thành công
                 if (!string.IsNullOrEmpty(returnUrl))

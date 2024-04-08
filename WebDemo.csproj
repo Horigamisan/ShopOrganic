@@ -192,6 +192,18 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Abstractions.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Container.5.11.1\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Mvc.5.11.1\lib\net47\Unity.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -212,7 +224,8 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Areas\admin\adminAreaRegistration.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Areas\admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\admin\Controllers\BannersController.cs" />
     <Compile Include="Areas\admin\Controllers\BlogsController.cs" />
     <Compile Include="Areas\admin\Controllers\PersonalInfoesController.cs" />
@@ -266,6 +279,7 @@
     <Compile Include="Models\Favorites.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FilterShopViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListCategories.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -310,16 +324,23 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\Implementations\FavoriteRepository.cs" />
-    <Compile Include="Repository\Implementations\GenericRepository.cs" />
-    <Compile Include="Repository\Implementations\ProductRepository.cs" />
-    <Compile Include="Repository\Implementations\UnitOfWork.cs" />
-    <Compile Include="Repository\Implementations\UserRepository.cs" />
-    <Compile Include="Repository\Interfaces\IFavoriteRepository.cs" />
-    <Compile Include="Repository\Interfaces\IGenericRepository.cs" />
-    <Compile Include="Repository\Interfaces\IProductRepository.cs" />
-    <Compile Include="Repository\Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Repository\Interfaces\IUserRepository.cs" />
+    <Compile Include="Services\Implementations\BaseService.cs" />
+    <Compile Include="Services\Implementations\BlogService.cs" />
+    <Compile Include="Services\Implementations\CartService.cs" />
+    <Compile Include="Services\Implementations\FavoriteService.cs" />
+    <Compile Include="Services\Implementations\LayoutService.cs" />
+    <Compile Include="Services\Implementations\OrdersService.cs" />
+    <Compile Include="Services\Implementations\ProductService.cs" />
+    <Compile Include="Services\Implementations\UnitOfWork.cs" />
+    <Compile Include="Services\Implementations\UserService.cs" />
+    <Compile Include="Services\Interfaces\IBlogService.cs" />
+    <Compile Include="Services\Interfaces\ICartService.cs" />
+    <Compile Include="Services\Interfaces\IFavoriteService.cs" />
+    <Compile Include="Services\Interfaces\ILayoutService.cs" />
+    <Compile Include="Services\Interfaces\IOrdersService.cs" />
+    <Compile Include="Services\Interfaces\IProductService.cs" />
+    <Compile Include="Services\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Services\Interfaces\IUserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

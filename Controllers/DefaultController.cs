@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using WebDemo.Models;
+using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
@@ -12,72 +13,85 @@ namespace WebDemo.Controllers
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
 
+        private readonly ILayoutService _layoutService;
+        private readonly IProductService _productService;
+        private readonly IFavoriteService _favoriteService;
+        private readonly IBlogService _blogService;
+
+        public DefaultController(ILayoutService layoutService, IProductService productService, IFavoriteService favoriteService, IBlogService blogService)
+        {
+            _layoutService = layoutService;
+            _productService = productService;
+            _favoriteService = favoriteService;
+            _blogService = blogService;
+        }
+
         // GET: Default
         public ActionResult Index()
         {
             return View();
         }
-        
-        public ActionResult getBanner()
+
+        public ActionResult GetBanner()
         {
-            var model = db.Banner.Where(x => x.hide == false).FirstOrDefault();
-            return PartialView(model);
-        }
-        
-        public ActionResult getFeaturedCategory()
-        {
-            ViewBag.meta = "san-pham";
-            var model = db.ListCategories.Where(x => x.hide == false).OrderByDescending(x => x.order).ToList();
+            var model = _layoutService.GetBanner();
             return PartialView(model);
         }
 
-        public ActionResult getProducts(long id, string meta)
+        public ActionResult GetFeaturedCategory()
+        {
+            ViewBag.meta = "san-pham";
+            var model = _productService.GetCategoriesDesc();
+            return PartialView(model);
+        }
+
+        public ActionResult GetProducts(int id, string meta)
         {
             ViewBag.meta = meta;
-            var model = db.Products.Where(x => x.hide == false).Where(x => x.categoryid == id).OrderByDescending(x => x.order).ToList();
+            var model = _productService.GetProductsByCategory(id);
 
             var email = User.Identity.Name;
             if (email != null)
             {
-                var favoriteProducts = db.Favorites.Where(i => i.AspNetUsers.Email == email).ToList();
-                var products = favoriteProducts.Select(fp => fp.Products).ToList();
+                var favoriteProducts = _favoriteService.GetFavoriteProductsByEmail(email);
+                var products = favoriteProducts.Select(fp => fp).ToList();
                 ViewBag.products = products.Select(x => x.id).ToList();
             }
 
             return PartialView(model);
         }
 
-        public ActionResult getListCategories()
+        public ActionResult GetListCategories()
         {
             ViewBag.meta = "san-pham";
-            var model = db.ListCategories.Where(x => x.hide == false).OrderByDescending(x => x.order).ToList();
+            var model = _productService.GetCategoriesDesc();
             return PartialView(model);
         }
 
-        public ActionResult getLastestProduct()
+        public ActionResult GetLastestProduct()
         {
-                ViewBag.meta = "san-pham";
-                var model = db.Products.Where(x => x.hide == false && x.latest_product == true).OrderByDescending(x => x.order).ToList();
-                return PartialView(model);
+            ViewBag.meta = "san-pham";
+            var model = _productService.GetLastestProduct();
+            return PartialView(model);
         }
 
-        public ActionResult getTopProduct()
+        public ActionResult GetTopProduct()
         {
-                ViewBag.meta = "san-pham";
-                var model = db.Products.Where(x => x.hide == false && x.top_product == true).OrderByDescending(x => x.order).ToList();
-                return PartialView(model);
+            ViewBag.meta = "san-pham";
+            var model = _productService.GetTopProduct();
+            return PartialView(model);
         }
 
-        public ActionResult getReviewProduct()
+        public ActionResult GetReviewProduct()
         {
-                ViewBag.meta = "san-pham";
-                var model = db.Products.Where(x => x.hide == false && x.review_product == true).OrderByDescending(x => x.order).ToList();
-                return PartialView(model);
+            ViewBag.meta = "san-pham";
+            var model = _productService.GetReviewProduct();
+            return PartialView(model);
         }
 
-        public ActionResult getBlogs()
+        public ActionResult GetBlogs()
         {
-            var model = db.Blogs.Where(x => x.hide == false).OrderByDescending(x => x.order).ToList();
+            var model = _blogService.GetAll();
             return PartialView(model);
         }
     }

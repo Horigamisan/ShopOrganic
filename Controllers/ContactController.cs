@@ -4,16 +4,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebDemo.Models;
+using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
     public class ContactController : Controller
     {
-        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ILayoutService _layoutService;
+        public ContactController(ILayoutService layoutService)
+        {
+            _layoutService = layoutService;
+        }
         // GET: Contact
         public ActionResult Index()
         {
-            var model = db.PersonalInfo.Where(x => x.hide == false).OrderByDescending(x => x.order).FirstOrDefault();
+            var model = _layoutService.GetPersonalInfo();
             return View(model);
         }
     }

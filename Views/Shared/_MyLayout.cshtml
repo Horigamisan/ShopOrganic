@@ -90,10 +90,10 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    @{ Html.RenderAction("getMenu", "Layout");}
+                    @{ Html.RenderAction("GetMenu", "Layout");}
                 </div>
                 <div class="col-lg-3">
-                    @{ Html.RenderAction("renderCarts", "Layout");}
+                    @{ Html.RenderAction("RenderCarts", "Layout");}
 
                 </div>
             </div>
@@ -107,7 +107,7 @@
     <section class="hero">
         <div class="container">
             <div class="row">
-                @{Html.RenderAction("getCategory", "Layout"); }
+                @{Html.RenderAction("GetCategory", "Layout"); }
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
@@ -126,7 +126,7 @@
                             </div>
                         </div>
                     </div>
-                    @{ Html.RenderAction("getBanner", "Default");}
+                    @{ Html.RenderAction("GetBanner", "Default");}
                 </div>
             </div>
         </div>
@@ -147,13 +147,13 @@
                         <div class="footer__about__logo">
                             <a href="./index.html"><img src="~/Uploads/img/logo.png" alt=""></a>
                         </div>
-                        @{ Html.RenderAction("getAboutInFooter", "Layout");}
+                        @{ Html.RenderAction("GetAboutInFooter", "Layout");}
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                     <div class="footer__widget">
                         <h6>Các liên kết khác</h6>
-                        @{ Html.RenderAction("getUsefulLinksInFooter", "Layout");}
+                        @{ Html.RenderAction("GetUsefulLinksInFooter", "Layout");}
 
                     </div>
                 </div>

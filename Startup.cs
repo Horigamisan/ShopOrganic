@@ -6,7 +6,8 @@ using System.Linq;
 using WebDemo.Models;
 using System.Configuration;
 using Stripe;
-using Stripe.Checkout;
+using Unity;
+
 
 [assembly: OwinStartupAttribute(typeof(WebDemo.Startup))]
 namespace WebDemo

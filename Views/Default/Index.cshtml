@@ -2,7 +2,7 @@
 <section class="categories">
     <div class="container">
         <div class="row">
-            @{ Html.RenderAction("getListCategories", "Default");}
+            @{ Html.RenderAction("GetListCategories", "Default");}
         </div>
     </div>
 </section>
@@ -10,7 +10,7 @@
 <!-- Featured Section Begin -->
 <section class="featured spad">
     <div class="container">
-        @{ Html.RenderAction("getFeaturedCategory", "Default");}
+        @{ Html.RenderAction("GetFeaturedCategory", "Default");}
     </div>
 </section>
 <!-- Featured Section End -->
@@ -36,16 +36,16 @@
 <section class="latest-product spad">
     <div class="container">
         <div class="row">
-            @{Html.RenderAction("getLastestProduct", "Default");}
-            @{Html.RenderAction("getTopProduct", "Default");}
-            @{Html.RenderAction("getReviewProduct", "Default");}
+            @{Html.RenderAction("GetLastestProduct", "Default");}
+            @{Html.RenderAction("GetTopProduct", "Default");}
+            @{Html.RenderAction("GetReviewProduct", "Default");}
         </div>
     </div>
 </section>
 <!-- Latest Product Section End -->
 <!-- Blog Section Begin -->
 
-@{ Html.RenderAction("getBlogs", "Default");}
+@{ Html.RenderAction("GetBlogs", "Default");}
 <!-- Blog Section End -->
 <script>
     // L?y URL c?a trang hi?n t?i
