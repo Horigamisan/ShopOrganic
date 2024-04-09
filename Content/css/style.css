@@ -1770,11 +1770,11 @@ ol {
 }
 
 .product__details__text .heart-icon-favorite {
-    display: inline-block;
-    font-size: 16px;
-    color: #dd2222;
-    padding: 13px 16px 13px;
-    background: #f5f5f5;
+	display: inline-block;
+	font-size: 16px;
+	color: #e90d0d;
+	padding: 13px 16px 13px;
+	background: #f5f5f5;
 }
 
 .product__details__text ul {

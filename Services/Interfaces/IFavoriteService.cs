@@ -12,5 +12,6 @@ namespace WebDemo.Services.Interfaces
         IEnumerable<Products> GetFavoriteProductsByEmail(string email);
         Task<Favorites> GetFavoriteByProductIdAndUId(string userId, int id);
         Task<bool> UpdateFavoriteProduct(string userId, int id);
+        bool IsFavoriteById(int id);
     }
 }

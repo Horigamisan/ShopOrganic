@@ -45,6 +45,7 @@ namespace WebDemo.Controllers
             var model = await _productService.GetProductById(id);
             var category = await _productService.GetCategoryByProductId(model.categoryid);
             ViewBag.category = category;
+            ViewBag.isFavorite = _favoriteService.IsFavoriteById(id);
             return View(model);
         }
 
@@ -58,6 +59,7 @@ namespace WebDemo.Controllers
         [Authorize]
         public ActionResult GetFavoriteProduct()
         {
+            ViewBag.meta = "san-pham";
             var products = _favoriteService.GetFavoriteProductsByEmail(User.Identity.Name);
             return View(products);
         }

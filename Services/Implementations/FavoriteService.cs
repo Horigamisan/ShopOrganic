@@ -56,5 +56,10 @@ namespace WebDemo.Services.Implementations
 
             return favoriteProduct == null;
         }
+
+        public bool IsFavoriteById(int id)
+        {
+            return _favoriteRepo.Any(fp => fp.ProductID == id);
+        }
     }
 }

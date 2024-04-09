@@ -68,7 +68,14 @@
                         </div>
                     </div>
                     <a href="#" class="primary-btn" id="AddToCarts">THÊM VÀO GIỎ</a>
-                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                    @if (ViewBag.isFavorite)
+                    {
+                        @: <a href="@Url.Action("UpdateFavoriteProduct", "Product", new {productId = Model.id, returnUrl = Request.Path})" class="heart-icon-favorite"><span class="icon_heart"></span></a>
+                    }
+                    else
+                    {
+                        @: <a href="@Url.Action("UpdateFavoriteProduct", "Product", new {productId = Model.id, returnUrl = Request.Path})" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                    }
                     <ul>
                         <li><b>Trạng thái</b> <span>@Model.availability</span></li>
                         <li><b>Thời gian giao hàng</b> <span>@Model.shipping_day</span></li>
@@ -130,7 +137,7 @@
                     <h2>Sản phẩm liên quan</h2>
                 </div>
             </div>
-            @{Html.RenderAction("GetRelatedProduct", "Product", new { id = Model.id , categoryid = ViewBag.category.id});}
+            @{Html.RenderAction("GetRelatedProduct", "Product", new { id = Model.id, categoryid = ViewBag.category.id });}
         </div>
     </div>
 </section>
