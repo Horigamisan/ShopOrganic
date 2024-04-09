@@ -37,9 +37,9 @@ namespace WebDemo.Services.Implementations
             return _usefulLinks.Where(x => x.hide == false).OrderByDescending(x => x.order).ToList();
         }
 
-        public Banner GetBanner()
+        public IEnumerable<Banner> GetBanner()
         {
-            return _bannerRepo.Where(x => x.hide == false).FirstOrDefault();
+            return _bannerRepo.Where(x => x.hide == false);
         }
     }
 }

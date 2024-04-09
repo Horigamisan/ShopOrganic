@@ -12,6 +12,6 @@ namespace WebDemo.Services.Interfaces
         PersonalInfo GetPersonalInfo();
         IEnumerable<menu> GetMenu();
         IEnumerable<UsefulLinks> GetUsefulLinks();
-        Banner GetBanner();
+        IEnumerable<Banner> GetBanner();
     }
 }
