@@ -24,7 +24,7 @@
 </section>
 <!-- Breadcrumb Section End -->
 <!-- Product Section Begin -->
-<section class="product spad">
+<section class="product spad" >
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-5">
@@ -60,7 +60,7 @@
 
 
                     <div class="sidebar__item">
-                        @{Html.RenderAction("getLastestProduct", "Shop");
+                        @{Html.RenderAction("GetLastestProduct", "Shop");
                         }
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="/Uploads/img/product/@i.img">
                                         <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                            <li class="@(ViewBag.products != null && ViewBag.products.Contains(i.id) ? "favorite" : "")"><a href="@Url.Action("UpdateFavoriteProduct", "Product", new {productId = i.id, returnUrl = Request.Path})"><i class="fa fa-heart"></i></a></li>
                                             <li><a href="/@ViewBag.meta/@i.meta/@i.id"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
@@ -115,7 +115,7 @@
                 </div>
                 <div class="product__pagination d-flex justify-content-center mt-5">
                     @Html.PagedListPager(Model, page => Url.Action("Index",
-     new { page, sortBy = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice }))
+     new { page, sortBy = ViewBag.CurrentSort, keyword = ViewBag.Keyword, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice }))
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
         let sortBy = '@ViewBag.Sort';
         let minPrice = '@ViewBag.MinPrice';
         let maxPrice = '@ViewBag.MaxPrice';
-        let searchString = '@ViewBag.CurrentFilter';
+        let keyword = '@ViewBag.Keyword';
 
         var rangeSlider = $(".price-range"),
             minamount = $("#minamount"),
@@ -155,7 +155,7 @@
             minPrice = $("#minamount").val();
             maxPrice = $("#maxamount").val();
             sortBy = $("#sortBySelect").val();
-            window.location.href = linkUrl + '&sortBy=' + sortBy + '&minPrice=' + minPrice + '&maxPrice=' + maxPrice + (searchString == "" ? "" : '&currentFilter=' + searchString);
+            window.location.href = linkUrl + '&sortBy=' + sortBy + '&minPrice=' + minPrice + '&maxPrice=' + maxPrice + (keyword == "" ? "" : '&keyword=' + keyword);
         }
 
         $("#sortBySelect").change(function() {

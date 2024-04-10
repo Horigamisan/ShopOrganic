@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="col-lg-8 col-md-7 mt-5">
-                @{Html.RenderAction("getBlogs", "Blog", new { page = ViewBag.page, id = Model?.id ?? 0, title = Model?.name ?? "Tất cả", searchTxt = ViewBag.searchTxt });}
+                @{Html.RenderAction("GetBlogs", "Blog", new { page = ViewBag.page, id = Model?.id ?? 0, title = Model?.name ?? "Tất cả", searchTxt = ViewBag.searchTxt });}
             </div>
         </div>
     </div>

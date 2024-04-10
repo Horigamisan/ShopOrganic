@@ -19,6 +19,6 @@
 <div class="row featured__filter">
     @foreach (var i in Model)
     {
-        Html.RenderAction("getProducts", "Default", new { id = @i.id, meta = ViewBag.meta });
+        Html.RenderAction("GetProducts", "Default", new { id = @i.id, meta = ViewBag.meta });
     }
 </div>

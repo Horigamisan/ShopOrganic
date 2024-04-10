@@ -34,8 +34,8 @@
                         </form>
                     </div>
 
-                    @{Html.RenderAction("getBlogCategories", "Blog");}
-                    @{Html.RenderAction("getRecentNews", "Blog");}
+                    @{Html.RenderAction("GetBlogCategories", "Blog");}
+                    @{Html.RenderAction("GetRecentNews", "Blog");}
                 </div>
             </div>
             <div class="col-lg-8 col-md-7 order-md-1 order-1 mt-5">
@@ -80,5 +80,5 @@
 </section>
 <!-- Blog Details Section End -->
 
-@{Html.RenderAction("getRelatedBlog", "Blog", new { id = Model.id, categoryid = ViewBag.category.id });}
+@{Html.RenderAction("GetRelatedBlog", "Blog", new { id = Model.id, categoryid = ViewBag.category.id });}
 

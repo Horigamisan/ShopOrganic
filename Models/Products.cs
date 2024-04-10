@@ -18,6 +18,7 @@ namespace WebDemo.Models
         public Products()
         {
             this.Carts = new HashSet<Carts>();
+            this.Favorites = new HashSet<Favorites>();
             this.OrderProduct = new HashSet<OrderProduct>();
         }
     
@@ -31,18 +32,20 @@ namespace WebDemo.Models
         public Nullable<int> order { get; set; }
         public Nullable<System.DateTime> datebegin { get; set; }
         public Nullable<int> categoryid { get; set; }
-        public Nullable<bool> latest_product { get; set; }
-        public Nullable<bool> top_product { get; set; }
-        public Nullable<bool> review_product { get; set; }
         public Nullable<int> reviews_number { get; set; }
         public string availability { get; set; }
         public string shipping_day { get; set; }
         public string weight { get; set; }
         public string detail_description { get; set; }
         public string review_comment { get; set; }
+        public Nullable<bool> latest_product { get; set; }
+        public Nullable<bool> top_product { get; set; }
+        public Nullable<bool> review_product { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Carts> Carts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Favorites> Favorites { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderProduct> OrderProduct { get; set; }
     }

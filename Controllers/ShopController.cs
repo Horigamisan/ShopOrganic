@@ -8,90 +8,63 @@ using WebDemo.Models;
 using PagedList;
 using System.Data.SqlClient;
 using WebDemo.Helper;
+using WebDemo.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace WebDemo.Controllers
 {
     public class ShopController : Controller
     {
-        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly IUserService _userService;
+        private readonly IFavoriteService _favoriteService;
+        private readonly IProductService _productService;
+
+        public ShopController(IUserService userService, IFavoriteService favoriteService, IProductService productService)
+        {
+            _userService = userService;
+            _favoriteService = favoriteService;
+            _productService = productService;
+        }
+
         // GET: Shop
-        public ActionResult Index( string currentFilter, string searchString, int? page, int? minPrice, int? maxPrice, string sortBy = "newProduct")
+        public async Task<ActionResult> Index(FilterShopViewModels models)
         {
             ViewBag.meta = "san-pham";
-            IEnumerable<Products> productList;
-            ViewBag.CurrentSort = sortBy;
-            ViewBag.MinPrice = minPrice ?? 1000;
-            ViewBag.MaxPrice = maxPrice ?? 500000;
+            ViewBag.CurrentSort = models.SortBy;
+            ViewBag.MinPrice = models.MinPrice ?? 1000;
+            ViewBag.MaxPrice = models.MaxPrice ?? 500000;
 
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            ViewBag.CurrentFilter = searchString;
+            ViewBag.Keyword = models.Keyword;
 
-            switch (sortBy)
+            IEnumerable<Products> productList = await _productService.GetProductOrderBy(models);
+
+            var email = User.Identity.Name;
+            if (email != null)
             {
-                case "newProduct":
-                    // Sắp xếp danh sách sản phẩm theo sản phẩm mới nhất
-                    productList = db.Products.OrderByDescending(p => p.id);
-                    break;
-                case "oldProduct":
-                    // Sắp xếp danh sách sản phẩm theo sản phẩm cũ nhất
-                    productList = db.Products.OrderBy(p => p.id);
-                    break;
-                case "highPrice":
-                    // Sắp xếp danh sách sản phẩm theo giá cao nhất
-                    productList = db.Products.OrderByDescending(p => p.price);
-                    break;
-                case "lowPrice":
-                    // Sắp xếp danh sách sản phẩm theo giá thấp nhất
-                    productList = db.Products.OrderBy(p => p.price);
-                    break;
-                default:
-                    // Mặc định sắp xếp theo sản phẩm mới nhất
-                    productList = db.Products.OrderByDescending(p => p.id);
-                    break;
+                var products = _favoriteService.GetFavoriteProductsByEmail(email);
+                ViewBag.products = products.Select(x => x.id).ToList();
             }
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                string newText = NormalizeTwoTextVN.Normalize(searchString);
-                productList = productList.Where(p =>
-                        (p.name != null && NormalizeTwoTextVN.Normalize(p.name).Contains(newText)) ||
-                        (p.description != null && NormalizeTwoTextVN.Normalize(p.description).Contains(newText))
-                        );
-            }
-
-            if (minPrice != null && maxPrice != null)
-            {
-                productList = productList.Where(p => p.price >= minPrice && p.price <= maxPrice);
-            }
-
-
-
-            ViewBag.Sort = sortBy;
+            ViewBag.Sort = models.SortBy;
             int pageSize = 6;
-            int pageNumber = (page ?? 1);
+            int pageNumber = (models.Page ?? 1);
             ViewBag.Page = pageNumber;
             ViewBag.TotalProduct = productList.Count();
+            
             return View(productList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult ListCategory()
         {
             ViewBag.meta = "san-pham";
-            var model = db.ListCategories.Where(x => x.hide == false).OrderByDescending(x => x.order).ToList();
+            var model = _productService.GetCategoriesDesc();
             return PartialView(model);
         }
 
-        public ActionResult getLastestProduct()
+        public ActionResult GetLastestProduct()
         {
             ViewBag.meta = "san-pham";
-            var model = db.Products.Where(x => x.hide == false && x.latest_product == true).OrderByDescending(x => x.order).ToList();
+            var model = _productService.GetLastestProducts();
             return PartialView(model);
         }
 

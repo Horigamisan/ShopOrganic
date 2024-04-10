@@ -6,7 +6,7 @@
 
 <hr />
 
-<div class="container mb-5 border border-success rounded p-5" id="targetScroll">
+<div class="container mb-5 border border-success rounded-lg p-5 .bg-light" id="targetScroll">
     <div class="row">
         <div class="col-12">
             <div class="mb-5">
@@ -75,19 +75,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
-    <script>
-  // Khi trang được load, cuộn đến phần tử target
-  window.addEventListener('load', function() {
-    // Lấy tham chiếu đến phần tử cần cuộn
-      var targetElement = document.getElementById('targetScroll');
-
-    // Cuộn phần tử vào giữa màn hình
-    targetElement.scrollIntoView({
-      behavior: 'smooth', // Cuộn mượt
-      block: 'center',    // Cuộn để phần tử ở giữa chiều dọc
-      inline: 'center'    // Cuộn để phần tử ở giữa chiều ngang
-    });
-  });
-    </script>
 }

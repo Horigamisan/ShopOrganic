@@ -1,46 +1,98 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using WebDemo.Models;
+using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
-        // GET: Product
-        public ActionResult Index(string meta)
+        private readonly IUserService _userService;
+        private readonly IFavoriteService _favoriteService;
+        private readonly IProductService _productService;
+        public ProductController(IUserService userService, IFavoriteService favoriteService, IProductService productService)
         {
-            var model = db.ListCategories.Where(x => x.hide == false).Where(x => x.meta == meta).FirstOrDefault();
+            _userService = userService;
+            _favoriteService = favoriteService;
+            _productService = productService;
+        }
+        // GET: Product
+        public async Task<ActionResult> Index(string meta)
+        {
+            var model = await _productService.GetCategoryByMeta(meta);
             return View(model);
         }
 
-        public ActionResult getProductByCategory(long id, string title)
+        public ActionResult GetProductByCategory(int id, string title)
         {
             ViewBag.title = title;
             ViewBag.meta = "san-pham";
-            var model = db.Products.Where(x => x.hide == false).Where(x => x.categoryid == id).ToList();
+            
+            var model = _productService.GetProductsByCategory(id);
+            var email = User.Identity.Name;
+            
+            if (email != null)
+            {
+                var products = _favoriteService.GetFavoriteProductsByEmail(email);
+                ViewBag.products = products.Select(x => x.id).ToList();
+            }
+
             return PartialView(model);
         }
-        
-        public ActionResult getDetailProduct(long id)
+
+        public async Task<ActionResult> GetDetailProduct(int id)
         {
-            var model = db.Products.Where(x => x.hide == false && x.id == id).FirstOrDefault();
-            var category = db.ListCategories.Where(x => x.id == model.categoryid).FirstOrDefault();
+            var model = await _productService.GetProductById(id);
+            var category = await _productService.GetCategoryByProductId(model.categoryid);
             ViewBag.category = category;
-            //var detail = db.DetailProduct.Where(x => x.productid == id).FirstOrDefault();
-            //ViewBag.detail = detail;
+            ViewBag.isFavorite = _favoriteService.IsFavoriteById(id);
             return View(model);
         }
 
-        public ActionResult getRelatedProduct(long id, int categoryid)
+        public ActionResult GetRelatedProduct(int id, int categoryId)
         {
             ViewBag.meta = "san-pham";
-            var model = db.Products.Where(x => x.hide == false).Where(x => x.id != id && x.categoryid == categoryid).ToList();
+            var email = User.Identity.Name;
+
+            if (email != null)
+            {
+                var products = _favoriteService.GetFavoriteProductsByEmail(email);
+                ViewBag.products = products.Select(x => x.id).ToList();
+            }
+            
+            var model = _productService.GetRelatedProducts(id, categoryId);
             return PartialView(model);
+        }
+
+        [Authorize]
+        public ActionResult GetFavoriteProduct()
+        {
+            ViewBag.meta = "san-pham";
+            var products = _favoriteService.GetFavoriteProductsByEmail(User.Identity.Name);
+            return View(products);
+        }
+
+        //update fav 
+        [Authorize]
+        public async Task<ActionResult> UpdateFavoriteProduct(int productId, string returnUrl)
+        {
+            var user = _userService.GetUserByEmail(User.Identity.Name);
+
+            if (user != null)
+            {
+                await _favoriteService.UpdateFavoriteProduct(user.Id, productId);
+
+                // Trả về một phản hồi thành công
+                if (!string.IsNullOrEmpty(returnUrl))
+                    return Redirect(returnUrl);
+                else
+                    return RedirectToAction("GetFavoriteProduct");
+            }
+            else
+            {
+                // Người dùng không tồn tại, trả về thông báo lỗi
+                return RedirectToAction("Index");
+            }
         }
     }
 }

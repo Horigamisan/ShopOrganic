@@ -20,7 +20,7 @@ namespace WebDemo.Models
         public Nullable<int> Quantity { get; set; }
         public Nullable<double> Price { get; set; }
     
-        public virtual Products Products { get; set; }
         public virtual Orders Orders { get; set; }
+        public virtual Products Products { get; set; }
     }
 }

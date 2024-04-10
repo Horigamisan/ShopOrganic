@@ -123,6 +123,14 @@
           <Property Name="Price" Type="float" />
           <Property Name="Status" Type="nvarchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="Favorites">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ListCategories">
           <Key>
             <PropertyRef Name="id" />
@@ -210,6 +218,16 @@
           <Property Name="top_product" Type="bit" />
           <Property Name="review_product" Type="bit" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="UsefulLinks">
           <Key>
             <PropertyRef Name="id" />
@@ -222,7 +240,7 @@
           <Property Name="order" Type="int" />
           <Property Name="datebegin" Type="smalldatetime" />
         </EntityType>
-        <Association Name="FK__Carts__ProductID__2A164134">
+        <Association Name="FK__Carts__ProductID__3F466844">
           <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
           <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -234,7 +252,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Carts__UserID__29221CFB">
+        <Association Name="FK__Carts__UserID__3E52440B">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -246,7 +264,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderProd__Order__37703C52">
+        <Association Name="FK__OrderProd__Order__45F365D3">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
           <ReferentialConstraint>
@@ -258,7 +276,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderProd__Produ__339FAB6E">
+        <Association Name="FK__OrderProd__Produ__44FF419A">
           <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
           <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
           <ReferentialConstraint>
@@ -270,7 +288,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__UserID__367C1819">
+        <Association Name="FK__Orders__UserID__4222D4EF">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -338,6 +356,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Favorites_Product">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Favorites" Type="Self.Favorites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Favorites">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorites_User">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Favorites" Type="Self.Favorites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Favorites">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ShopOnlineModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -349,30 +395,32 @@
           <EntitySet Name="BlogCategories" EntityType="Self.BlogCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Blogs" EntityType="Self.Blogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Carts" EntityType="Self.Carts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Favorites" EntityType="Self.Favorites" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListCategories" EntityType="Self.ListCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="menu" EntityType="Self.menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderProduct" EntityType="Self.OrderProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonalInfo" EntityType="Self.PersonalInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsefulLinks" EntityType="Self.UsefulLinks" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Carts__ProductID__2A164134" Association="Self.FK__Carts__ProductID__2A164134">
+          <AssociationSet Name="FK__Carts__ProductID__3F466844" Association="Self.FK__Carts__ProductID__3F466844">
             <End Role="Products" EntitySet="Products" />
             <End Role="Carts" EntitySet="Carts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Carts__UserID__29221CFB" Association="Self.FK__Carts__UserID__29221CFB">
+          <AssociationSet Name="FK__Carts__UserID__3E52440B" Association="Self.FK__Carts__UserID__3E52440B">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Carts" EntitySet="Carts" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderProd__Order__37703C52" Association="Self.FK__OrderProd__Order__37703C52">
+          <AssociationSet Name="FK__OrderProd__Order__45F365D3" Association="Self.FK__OrderProd__Order__45F365D3">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderProduct" EntitySet="OrderProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderProd__Produ__339FAB6E" Association="Self.FK__OrderProd__Produ__339FAB6E">
+          <AssociationSet Name="FK__OrderProd__Produ__44FF419A" Association="Self.FK__OrderProd__Produ__44FF419A">
             <End Role="Products" EntitySet="Products" />
             <End Role="OrderProduct" EntitySet="OrderProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__UserID__367C1819" Association="Self.FK__Orders__UserID__367C1819">
+          <AssociationSet Name="FK__Orders__UserID__4222D4EF" Association="Self.FK__Orders__UserID__4222D4EF">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
@@ -392,49 +440,38 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_Favorites_Product" Association="Self.FK_Favorites_Product">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Favorites" EntitySet="Favorites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorites_User" Association="Self.FK_Favorites_User">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Favorites" EntitySet="Favorites" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ShopOnlineModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="menu">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hide" Type="Boolean" />
-          <Property Name="order" Type="Int32" />
-          <Property Name="datebegin" Type="DateTime" Precision="0" />
-        </EntityType>
-        <EntityType Name="UsefulLinks">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hide" Type="Boolean" />
-          <Property Name="order" Type="Int32" />
-          <Property Name="datebegin" Type="DateTime" Precision="0" />
-        </EntityType>
         <EntityContainer Name="ShopOnlineEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="menu" EntityType="Self.menu" />
-          <EntitySet Name="UsefulLinks" EntityType="Self.UsefulLinks" />
-          <EntitySet Name="Banner" EntityType="ShopOnlineModel.Banner" />
-          <EntitySet Name="Products" EntityType="ShopOnlineModel.Products" />
-          <EntitySet Name="ListCategories" EntityType="ShopOnlineModel.ListCategories" />
-          <EntitySet Name="Blogs" EntityType="ShopOnlineModel.Blogs" />
-          <EntitySet Name="PersonalInfo" EntityType="ShopOnlineModel.PersonalInfo" />
-          <EntitySet Name="BlogCategories" EntityType="ShopOnlineModel.BlogCategories" />
           <EntitySet Name="C__MigrationHistory" EntityType="ShopOnlineModel.C__MigrationHistory" />
           <EntitySet Name="AspNetRoles" EntityType="ShopOnlineModel.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="ShopOnlineModel.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="ShopOnlineModel.AspNetUserLogins" />
           <EntitySet Name="AspNetUsers" EntityType="ShopOnlineModel.AspNetUsers" />
+          <EntitySet Name="Banner" EntityType="ShopOnlineModel.Banner" />
+          <EntitySet Name="BlogCategories" EntityType="ShopOnlineModel.BlogCategories" />
+          <EntitySet Name="Blogs" EntityType="ShopOnlineModel.Blogs" />
+          <EntitySet Name="Carts" EntityType="ShopOnlineModel.Carts" />
+          <EntitySet Name="Favorites" EntityType="ShopOnlineModel.Favorites" />
+          <EntitySet Name="ListCategories" EntityType="ShopOnlineModel.ListCategories" />
+          <EntitySet Name="menu" EntityType="ShopOnlineModel.menu" />
+          <EntitySet Name="OrderProduct" EntityType="ShopOnlineModel.OrderProduct" />
+          <EntitySet Name="Orders" EntityType="ShopOnlineModel.Orders" />
+          <EntitySet Name="PersonalInfo" EntityType="ShopOnlineModel.PersonalInfo" />
+          <EntitySet Name="Products" EntityType="ShopOnlineModel.Products" />
+          <EntitySet Name="sysdiagrams" EntityType="ShopOnlineModel.sysdiagrams" />
+          <EntitySet Name="UsefulLinks" EntityType="ShopOnlineModel.UsefulLinks" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="ShopOnlineModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -443,132 +480,39 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
+          <AssociationSet Name="FK__Carts__UserID__3E52440B" Association="ShopOnlineModel.FK__Carts__UserID__3E52440B">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Carts" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__UserID__4222D4EF" Association="ShopOnlineModel.FK__Orders__UserID__4222D4EF">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorites_User" Association="ShopOnlineModel.FK_Favorites_User">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Favorites" EntitySet="Favorites" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Carts__ProductID__3F466844" Association="ShopOnlineModel.FK__Carts__ProductID__3F466844">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Carts" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorites_Product" Association="ShopOnlineModel.FK_Favorites_Product">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Favorites" EntitySet="Favorites" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderProd__Order__45F365D3" Association="ShopOnlineModel.FK__OrderProd__Order__45F365D3">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderProduct" EntitySet="OrderProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderProd__Produ__44FF419A" Association="ShopOnlineModel.FK__OrderProd__Produ__44FF419A">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderProduct" EntitySet="OrderProduct" />
+          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="ShopOnlineModel.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="Carts" EntityType="ShopOnlineModel.Carts" />
-          <AssociationSet Name="FK__Carts__UserID__29221CFB" Association="ShopOnlineModel.FK__Carts__UserID__29221CFB">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Carts" EntitySet="Carts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Carts__ProductID__2A164134" Association="ShopOnlineModel.FK__Carts__ProductID__2A164134">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="Carts" EntitySet="Carts" />
-          </AssociationSet>
-          <EntitySet Name="OrderProduct" EntityType="ShopOnlineModel.OrderProduct" />
-          <AssociationSet Name="FK__OrderProd__Produ__339FAB6E" Association="ShopOnlineModel.FK__OrderProd__Produ__339FAB6E">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="OrderProduct" EntitySet="OrderProduct" />
-          </AssociationSet>
-          <EntitySet Name="Orders" EntityType="ShopOnlineModel.Orders" />
-          <AssociationSet Name="FK__Orders__UserID__367C1819" Association="ShopOnlineModel.FK__Orders__UserID__367C1819">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OrderProd__Order__37703C52" Association="ShopOnlineModel.FK__OrderProd__Order__37703C52">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrderProduct" EntitySet="OrderProduct" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Banner">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="main_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="hide" Type="Boolean" />
-          <Property Name="datebegin" Type="DateTime" Precision="0" />
-          <Property Name="order" Type="Int32" />
-        </EntityType>
-        <EntityType Name="Products">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="price" Type="Double" />
-          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="hide" Type="Boolean" />
-          <Property Name="order" Type="Int32" />
-          <Property Name="datebegin" Type="DateTime" Precision="0" />
-          <Property Name="categoryid" Type="Int32" />
-          <Property Name="latest_product" Type="Boolean" />
-          <Property Name="top_product" Type="Boolean" />
-          <Property Name="review_product" Type="Boolean" />
-          <Property Name="reviews_number" Type="Int32" />
-          <Property Name="availability" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="shipping_day" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="weight" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="detail_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="review_comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Carts" Relationship="ShopOnlineModel.FK__Carts__ProductID__2A164134" FromRole="Products" ToRole="Carts" />
-          <NavigationProperty Name="OrderProduct" Relationship="ShopOnlineModel.FK__OrderProd__Produ__339FAB6E" FromRole="Products" ToRole="OrderProduct" />
-        </EntityType>
-        <EntityType Name="ListCategories">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hide" Type="Boolean" />
-          <Property Name="order" Type="Int32" />
-          <Property Name="datebegin" Type="DateTime" Precision="0" />
-        </EntityType>
-        <EntityType Name="Blogs">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="comments" Type="Int32" />
-          <Property Name="dateupload" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hide" Type="Boolean" />
-          <Property Name="order" Type="Int32" />
-          <Property Name="datebegin" Type="DateTime" Precision="0" />
-          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="categoryid" Type="Int32" />
-          <Property Name="author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="PersonalInfo">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="opentime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hide" Type="Boolean" />
-          <Property Name="order" Type="Int32" />
-          <Property Name="datebegin" Type="DateTime" Precision="0" />
-        </EntityType>
-        <EntityType Name="BlogCategories">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hide" Type="Boolean" />
-          <Property Name="order" Type="Int32" />
-          <Property Name="datebegin" Type="DateTime" Precision="0" />
-        </EntityType>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -627,9 +571,194 @@
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="ShopOnlineModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="ShopOnlineModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="Carts" Relationship="ShopOnlineModel.FK__Carts__UserID__3E52440B" FromRole="AspNetUsers" ToRole="Carts" />
+          <NavigationProperty Name="Orders" Relationship="ShopOnlineModel.FK__Orders__UserID__4222D4EF" FromRole="AspNetUsers" ToRole="Orders" />
+          <NavigationProperty Name="Favorites" Relationship="ShopOnlineModel.FK_Favorites_User" FromRole="AspNetUsers" ToRole="Favorites" />
           <NavigationProperty Name="AspNetRoles" Relationship="ShopOnlineModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-          <NavigationProperty Name="Carts" Relationship="ShopOnlineModel.FK__Carts__UserID__29221CFB" FromRole="AspNetUsers" ToRole="Carts" />
-          <NavigationProperty Name="Orders" Relationship="ShopOnlineModel.FK__Orders__UserID__367C1819" FromRole="AspNetUsers" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Banner">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="main_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="BlogCategories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Blogs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="comments" Type="Int32" />
+          <Property Name="dateupload" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="0" />
+          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="categoryid" Type="Int32" />
+          <Property Name="author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Carts">
+          <Key>
+            <PropertyRef Name="CartID" />
+          </Key>
+          <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="ShopOnlineModel.FK__Carts__UserID__3E52440B" FromRole="Carts" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Products" Relationship="ShopOnlineModel.FK__Carts__ProductID__3F466844" FromRole="Carts" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Favorites">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="ShopOnlineModel.FK_Favorites_User" FromRole="Favorites" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Products" Relationship="ShopOnlineModel.FK_Favorites_Product" FromRole="Favorites" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="ListCategories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="menu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="OrderProduct">
+          <Key>
+            <PropertyRef Name="OrderProductID" />
+          </Key>
+          <Property Name="OrderProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <NavigationProperty Name="Orders" Relationship="ShopOnlineModel.FK__OrderProd__Order__45F365D3" FromRole="OrderProduct" ToRole="Orders" />
+          <NavigationProperty Name="Products" Relationship="ShopOnlineModel.FK__OrderProd__Produ__44FF419A" FromRole="OrderProduct" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="NameCustomer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShippingAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NoteOrder" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalAmount" Type="Double" />
+          <Property Name="PaymentStatus" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="ShopOnlineModel.FK__Orders__UserID__4222D4EF" FromRole="Orders" ToRole="AspNetUsers" />
+          <NavigationProperty Name="OrderProduct" Relationship="ShopOnlineModel.FK__OrderProd__Order__45F365D3" FromRole="Orders" ToRole="OrderProduct" />
+        </EntityType>
+        <EntityType Name="PersonalInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="opentime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" />
+          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="0" />
+          <Property Name="categoryid" Type="Int32" />
+          <Property Name="reviews_number" Type="Int32" />
+          <Property Name="availability" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="shipping_day" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="weight" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="detail_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="review_comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="latest_product" Type="Boolean" />
+          <Property Name="top_product" Type="Boolean" />
+          <Property Name="review_product" Type="Boolean" />
+          <NavigationProperty Name="Carts" Relationship="ShopOnlineModel.FK__Carts__ProductID__3F466844" FromRole="Products" ToRole="Carts" />
+          <NavigationProperty Name="Favorites" Relationship="ShopOnlineModel.FK_Favorites_Product" FromRole="Products" ToRole="Favorites" />
+          <NavigationProperty Name="OrderProduct" Relationship="ShopOnlineModel.FK__OrderProd__Produ__44FF419A" FromRole="Products" ToRole="OrderProduct" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UsefulLinks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="ShopOnlineModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
@@ -659,24 +788,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="ShopOnlineModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
-          <End Type="ShopOnlineModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Carts">
-          <Key>
-            <PropertyRef Name="CartID" />
-          </Key>
-          <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="Price" Type="Double" />
-          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="ShopOnlineModel.FK__Carts__UserID__29221CFB" FromRole="Carts" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Products" Relationship="ShopOnlineModel.FK__Carts__ProductID__2A164134" FromRole="Carts" ToRole="Products" />
-        </EntityType>
-        <Association Name="FK__Carts__UserID__29221CFB">
+        <Association Name="FK__Carts__UserID__3E52440B">
           <End Type="ShopOnlineModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
           <End Type="ShopOnlineModel.Carts" Role="Carts" Multiplicity="*" />
           <ReferentialConstraint>
@@ -688,59 +800,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Carts__ProductID__2A164134">
-          <End Type="ShopOnlineModel.Products" Role="Products" Multiplicity="0..1" />
-          <End Type="ShopOnlineModel.Carts" Role="Carts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Carts">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="OrderProduct">
-          <Key>
-            <PropertyRef Name="OrderProductID" />
-          </Key>
-          <Property Name="OrderProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderID" Type="Int32" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="Price" Type="Double" />
-          <NavigationProperty Name="Products" Relationship="ShopOnlineModel.FK__OrderProd__Produ__339FAB6E" FromRole="OrderProduct" ToRole="Products" />
-          <NavigationProperty Name="Orders" Relationship="ShopOnlineModel.FK__OrderProd__Order__37703C52" FromRole="OrderProduct" ToRole="Orders" />
-        </EntityType>
-        <Association Name="FK__OrderProd__Produ__339FAB6E">
-          <End Type="ShopOnlineModel.Products" Role="Products" Multiplicity="0..1" />
-          <End Type="ShopOnlineModel.OrderProduct" Role="OrderProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="OrderProduct">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Orders">
-          <Key>
-            <PropertyRef Name="OrderID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderDate" Type="DateTime" Precision="3" />
-          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="NameCustomer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ShippingAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="NoteOrder" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TotalAmount" Type="Double" />
-          <Property Name="PaymentStatus" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="ShopOnlineModel.FK__Orders__UserID__367C1819" FromRole="Orders" ToRole="AspNetUsers" />
-          <NavigationProperty Name="OrderProduct" Relationship="ShopOnlineModel.FK__OrderProd__Order__37703C52" FromRole="Orders" ToRole="OrderProduct" />
-        </EntityType>
-        <Association Name="FK__Orders__UserID__367C1819">
+        <Association Name="FK__Orders__UserID__4222D4EF">
           <End Type="ShopOnlineModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
           <End Type="ShopOnlineModel.Orders" Role="Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -752,7 +812,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderProd__Order__37703C52">
+        <Association Name="FK_Favorites_User">
+          <End Type="ShopOnlineModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ShopOnlineModel.Favorites" Role="Favorites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Favorites">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Carts__ProductID__3F466844">
+          <End Type="ShopOnlineModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="ShopOnlineModel.Carts" Role="Carts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Carts">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorites_Product">
+          <End Type="ShopOnlineModel.Products" Role="Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ShopOnlineModel.Favorites" Role="Favorites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Favorites">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderProd__Order__45F365D3">
           <End Type="ShopOnlineModel.Orders" Role="Orders" Multiplicity="0..1" />
           <End Type="ShopOnlineModel.OrderProduct" Role="OrderProduct" Multiplicity="*" />
           <ReferentialConstraint>
@@ -764,140 +864,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK__OrderProd__Produ__44FF419A">
+          <End Type="ShopOnlineModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="ShopOnlineModel.OrderProduct" Role="OrderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OrderProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="ShopOnlineModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+          <End Type="ShopOnlineModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ShopOnlineModelStoreContainer" CdmEntityContainer="ShopOnlineEntities">
-          <EntitySetMapping Name="menu">
-            <EntityTypeMapping TypeName="ShopOnlineModel.menu">
-              <MappingFragment StoreEntitySet="menu">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="link" ColumnName="link" />
-                <ScalarProperty Name="meta" ColumnName="meta" />
-                <ScalarProperty Name="hide" ColumnName="hide" />
-                <ScalarProperty Name="order" ColumnName="order" />
-                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UsefulLinks">
-            <EntityTypeMapping TypeName="ShopOnlineModel.UsefulLinks">
-              <MappingFragment StoreEntitySet="UsefulLinks">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="link" ColumnName="link" />
-                <ScalarProperty Name="meta" ColumnName="meta" />
-                <ScalarProperty Name="hide" ColumnName="hide" />
-                <ScalarProperty Name="order" ColumnName="order" />
-                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Banner">
-            <EntityTypeMapping TypeName="ShopOnlineModel.Banner">
-              <MappingFragment StoreEntitySet="Banner">
-                <ScalarProperty Name="order" ColumnName="order" />
-                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
-                <ScalarProperty Name="hide" ColumnName="hide" />
-                <ScalarProperty Name="meta" ColumnName="meta" />
-                <ScalarProperty Name="detail" ColumnName="detail" />
-                <ScalarProperty Name="main_description" ColumnName="main_description" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="img" ColumnName="img" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="ShopOnlineModel.Products">
-              <MappingFragment StoreEntitySet="Products">
-                <ScalarProperty Name="review_comment" ColumnName="review_comment" />
-                <ScalarProperty Name="detail_description" ColumnName="detail_description" />
-                <ScalarProperty Name="weight" ColumnName="weight" />
-                <ScalarProperty Name="shipping_day" ColumnName="shipping_day" />
-                <ScalarProperty Name="availability" ColumnName="availability" />
-                <ScalarProperty Name="reviews_number" ColumnName="reviews_number" />
-                <ScalarProperty Name="review_product" ColumnName="review_product" />
-                <ScalarProperty Name="top_product" ColumnName="top_product" />
-                <ScalarProperty Name="latest_product" ColumnName="latest_product" />
-                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
-                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
-                <ScalarProperty Name="order" ColumnName="order" />
-                <ScalarProperty Name="hide" ColumnName="hide" />
-                <ScalarProperty Name="meta" ColumnName="meta" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="img" ColumnName="img" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ListCategories">
-            <EntityTypeMapping TypeName="ShopOnlineModel.ListCategories">
-              <MappingFragment StoreEntitySet="ListCategories">
-                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
-                <ScalarProperty Name="order" ColumnName="order" />
-                <ScalarProperty Name="hide" ColumnName="hide" />
-                <ScalarProperty Name="meta" ColumnName="meta" />
-                <ScalarProperty Name="link" ColumnName="link" />
-                <ScalarProperty Name="img" ColumnName="img" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Blogs">
-            <EntityTypeMapping TypeName="ShopOnlineModel.Blogs">
-              <MappingFragment StoreEntitySet="Blogs">
-                <ScalarProperty Name="author" ColumnName="author" />
-                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
-                <ScalarProperty Name="img" ColumnName="img" />
-                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
-                <ScalarProperty Name="order" ColumnName="order" />
-                <ScalarProperty Name="hide" ColumnName="hide" />
-                <ScalarProperty Name="meta" ColumnName="meta" />
-                <ScalarProperty Name="dateupload" ColumnName="dateupload" />
-                <ScalarProperty Name="comments" ColumnName="comments" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="detail" ColumnName="detail" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PersonalInfo">
-            <EntityTypeMapping TypeName="ShopOnlineModel.PersonalInfo">
-              <MappingFragment StoreEntitySet="PersonalInfo">
-                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
-                <ScalarProperty Name="order" ColumnName="order" />
-                <ScalarProperty Name="hide" ColumnName="hide" />
-                <ScalarProperty Name="meta" ColumnName="meta" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="opentime" ColumnName="opentime" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BlogCategories">
-            <EntityTypeMapping TypeName="ShopOnlineModel.BlogCategories">
-              <MappingFragment StoreEntitySet="BlogCategories">
-                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
-                <ScalarProperty Name="order" ColumnName="order" />
-                <ScalarProperty Name="hide" ColumnName="hide" />
-                <ScalarProperty Name="meta" ColumnName="meta" />
-                <ScalarProperty Name="link" ColumnName="link" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="ShopOnlineModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -954,14 +942,54 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="ShopOnlineModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <EntitySetMapping Name="Banner">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Banner">
+              <MappingFragment StoreEntitySet="Banner">
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="main_description" ColumnName="main_description" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogCategories">
+            <EntityTypeMapping TypeName="ShopOnlineModel.BlogCategories">
+              <MappingFragment StoreEntitySet="BlogCategories">
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Blogs">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Blogs">
+              <MappingFragment StoreEntitySet="Blogs">
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="dateupload" ColumnName="dateupload" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Carts">
             <EntityTypeMapping TypeName="ShopOnlineModel.Carts">
               <MappingFragment StoreEntitySet="Carts">
@@ -971,6 +999,42 @@
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Favorites">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Favorites">
+              <MappingFragment StoreEntitySet="Favorites">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListCategories">
+            <EntityTypeMapping TypeName="ShopOnlineModel.ListCategories">
+              <MappingFragment StoreEntitySet="ListCategories">
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menu">
+            <EntityTypeMapping TypeName="ShopOnlineModel.menu">
+              <MappingFragment StoreEntitySet="menu">
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1000,6 +1064,78 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PersonalInfo">
+            <EntityTypeMapping TypeName="ShopOnlineModel.PersonalInfo">
+              <MappingFragment StoreEntitySet="PersonalInfo">
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="opentime" ColumnName="opentime" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="review_product" ColumnName="review_product" />
+                <ScalarProperty Name="top_product" ColumnName="top_product" />
+                <ScalarProperty Name="latest_product" ColumnName="latest_product" />
+                <ScalarProperty Name="review_comment" ColumnName="review_comment" />
+                <ScalarProperty Name="detail_description" ColumnName="detail_description" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="shipping_day" ColumnName="shipping_day" />
+                <ScalarProperty Name="availability" ColumnName="availability" />
+                <ScalarProperty Name="reviews_number" ColumnName="reviews_number" />
+                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ShopOnlineModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsefulLinks">
+            <EntityTypeMapping TypeName="ShopOnlineModel.UsefulLinks">
+              <MappingFragment StoreEntitySet="UsefulLinks">
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="ShopOnlineModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
