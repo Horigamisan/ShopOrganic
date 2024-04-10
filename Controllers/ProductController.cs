@@ -52,6 +52,14 @@ namespace WebDemo.Controllers
         public ActionResult GetRelatedProduct(int id, int categoryId)
         {
             ViewBag.meta = "san-pham";
+            var email = User.Identity.Name;
+
+            if (email != null)
+            {
+                var products = _favoriteService.GetFavoriteProductsByEmail(email);
+                ViewBag.products = products.Select(x => x.id).ToList();
+            }
+            
             var model = _productService.GetRelatedProducts(id, categoryId);
             return PartialView(model);
         }
