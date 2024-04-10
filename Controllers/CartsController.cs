@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebDemo.Models;
+using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
@@ -11,75 +13,52 @@ namespace WebDemo.Controllers
     public class CartsController : Controller
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly ICartService _cartService;
+        private readonly IUserService _userService;
+        private readonly IProductService _productService;
+
+        public CartsController(ICartService cartService, IUserService userService, IProductService productService)
+        {
+            _cartService = cartService;
+            _userService = userService;
+            _productService = productService;
+        }
+        
         // GET: Carts
         public ActionResult Index()
         {
             var emailUser = User.Identity.Name;
-            var userId = db.AspNetUsers.Where(x => x.Email == emailUser).FirstOrDefault().Id;
-            var model = db.Carts.Where(x => x.UserID == userId && x.Status != "Huỷ" && x.Status != "Đã thanh toán");
-            ViewBag.Products = db.Products.ToList();
+            var userId = _userService.GetUserByEmail(emailUser).Id;
+            var model = _cartService.GetUserCart(userId);
+            ViewBag.Products = _productService.GetAll();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult UpdateCarts(List<CartItems> cartItems)
+        public async Task<ActionResult> UpdateCarts(List<CartItems> cartItems)
         {
 
-            foreach (var item in cartItems)
-            {
-                var cartItem = db.Carts.Find(item.Id);
-                if (cartItem != null)
-                {
-                    cartItem.Quantity = item.Quantity;
-                }
-                cartItem.Price = (double?)(cartItem.Quantity * cartItem.Products.price);
-            }
-
-            db.SaveChanges();
+            await _cartService.UpdateCarts(cartItems);
 
             // Trả về một phản hồi thành công (nếu cần)
             return Json(new { success = true });
         }
 
         [HttpPost]
-        public ActionResult RemoveCartItem(int cartItemId)
+        public async Task<ActionResult> RemoveCartItem(int cartItemId)
         {
-            var cartItem = db.Carts.Find(cartItemId);
-
-            if (cartItem != null)
-            {
-                // Xóa cartItem khỏi cơ sở dữ liệu
-                cartItem.Status = "Huỷ";
-                db.SaveChanges();
-            }
+            await _cartService.RemoveCartItem(cartItemId);
 
             return Json(new { success = true });
         }
 
         [HttpPost]
-        public ActionResult AddToCarts(int productId, int quantity)
+        public async Task<ActionResult> AddToCarts(int productId, int quantity)
         {
             var emailUser = User.Identity.Name;
-            var userId = db.AspNetUsers.Where(x => x.Email == emailUser).FirstOrDefault().Id;
-            var cartItem = db.Carts.Where(x => x.UserID == userId && x.ProductID == productId && x.Status != "Huỷ" && x.Status != "Đã thanh toán").FirstOrDefault();
-            if (cartItem != null)
-            {
-                cartItem.Quantity += quantity;
-                cartItem.Price = (double?)(cartItem.Quantity * cartItem.Products.price);
-            }
-            else
-            {
-                cartItem = new Carts
-                {
-                    UserID = userId,
-                    ProductID = productId,
-                    Quantity = quantity,
-                    Price = (double?)(quantity * db.Products.Find(productId).price),
-                    Status = "Đang chờ"
-                };
-                db.Carts.Add(cartItem);
-            }
-            db.SaveChanges();
+            var userId = _userService.GetUserByEmail(emailUser).Id;
+            await _cartService.AddToCart(userId, productId, quantity);
+
             return Json(new { success = true });
         }
     }

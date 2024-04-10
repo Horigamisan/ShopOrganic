@@ -115,7 +115,7 @@
                 </div>
                 <div class="product__pagination d-flex justify-content-center mt-5">
                     @Html.PagedListPager(Model, page => Url.Action("Index",
-     new { page, sortBy = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice }))
+     new { page, sortBy = ViewBag.CurrentSort, keyword = ViewBag.Keyword, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice }))
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
         let sortBy = '@ViewBag.Sort';
         let minPrice = '@ViewBag.MinPrice';
         let maxPrice = '@ViewBag.MaxPrice';
-        let searchString = '@ViewBag.CurrentFilter';
+        let keyword = '@ViewBag.Keyword';
 
         var rangeSlider = $(".price-range"),
             minamount = $("#minamount"),
@@ -155,7 +155,7 @@
             minPrice = $("#minamount").val();
             maxPrice = $("#maxamount").val();
             sortBy = $("#sortBySelect").val();
-            window.location.href = linkUrl + '&sortBy=' + sortBy + '&minPrice=' + minPrice + '&maxPrice=' + maxPrice + (searchString == "" ? "" : '&currentFilter=' + searchString);
+            window.location.href = linkUrl + '&sortBy=' + sortBy + '&minPrice=' + minPrice + '&maxPrice=' + maxPrice + (keyword == "" ? "" : '&keyword=' + keyword);
         }
 
         $("#sortBySelect").change(function() {

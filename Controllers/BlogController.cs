@@ -7,84 +7,63 @@ using System.Web.Mvc;
 using System.Web.UI;
 using WebDemo.Helper;
 using WebDemo.Models;
+using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly ShopOnlineEntities db = new ShopOnlineEntities();
+        private readonly IBlogService _blogService;
 
-        // GET: admin/Blog
+        public BlogController(IBlogService blogService)
+        {
+            _blogService = blogService;
+        }
+
         public ActionResult Index(int? page, string meta, string searchTxt)
         {
             ViewBag.page = page;
             ViewBag.meta = meta;
             ViewBag.searchTxt = searchTxt;
-            var model = db.BlogCategories.Where(x => x.hide == false).Where(x => x.meta == meta).FirstOrDefault();
+            var model = _blogService.GetCategoryByMeta(meta);
             return View(model);
         }
 
-        public ActionResult getBlogs(string currentFilter, string searchTxt, int? page, int id, string title)
+        public ActionResult GetBlogs(FilterBlogViewModel modelRequest)
         {
-            IEnumerable<Blogs> model = db.Blogs.Where(x => x.hide == false).OrderByDescending(x => x.order);
-
-            if (searchTxt != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                currentFilter = searchTxt;
-            }
-            ViewBag.searchTxt = searchTxt;
-
-            if (id != 0 || title != "Tất cả")
-            {
-                model = db.Blogs.Where(x => x.hide == false).Where(x => x.categoryid == id).OrderByDescending(x => x.order);
-            }
-
-            if (!string.IsNullOrEmpty(searchTxt))
-            {
-                string newText = NormalizeTwoTextVN.Normalize(searchTxt);
-                model = model.Where(p =>
-                        (p.description != null && NormalizeTwoTextVN.Normalize(p.description).Contains(newText)) ||
-                        (p.name != null && NormalizeTwoTextVN.Normalize(p.name).Contains(newText))
-                        );
-            }
+            IEnumerable<Blogs> model = _blogService.FilterBlog(modelRequest);
 
             int pageSize = 2;
-            int pageNumber = (page ?? 1);
-            ViewBag.title = title;
+            int pageNumber = (modelRequest.Page ?? 1);
+            ViewBag.title = modelRequest.Title;
             ViewBag.Page = pageNumber;
 
             return PartialView(model.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult getBlogCategories()
+        public ActionResult GetBlogCategories()
         {
-            var model = db.BlogCategories.Where(x => x.hide == false).OrderByDescending(x => x.order);
+            var model = _blogService.GetBlogCategories();
             return PartialView(model);
         }
 
-        public ActionResult getRecentNews()
+        public ActionResult GetRecentNews()
         {
-            var model = db.Blogs.Where(x => x.hide == false).OrderByDescending(x => x.order).Take(5);
+            var model = _blogService.GetRecentNews();
             return PartialView(model);
         }
 
-        public ActionResult getDetailBlog(long id)
+        public ActionResult GetDetailBlog(int id)
         {
-            var model = db.Blogs.Where(x => x.hide == false && x.id == id).FirstOrDefault();
-            var category = db.BlogCategories.Where(x => x.id == model.categoryid).FirstOrDefault();
+            var model = _blogService.GetBlogById(id);
+            var category = _blogService.GetCategoryById(model?.categoryid);
             ViewBag.category = category;
-            //var detail = db.DetailProduct.Where(x => x.productid == id).FirstOrDefault();
-            //ViewBag.detail = detail;
             return View(model);
         }
 
-        public ActionResult getRelatedBlog(long id, int categoryid)
+        public ActionResult GetRelatedBlog(int id)
         {
-            var model = db.Blogs.Where(x => x.hide == false).Where(x => x.id != id).ToList();
+            var model = _blogService.GetRelatedBlog(id);
             return PartialView(model);
         }
     }

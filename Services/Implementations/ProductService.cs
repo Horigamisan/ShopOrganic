@@ -71,9 +71,9 @@ namespace WebDemo.Services.Implementations
 
             var products = await productList.ToListAsync();
 
-            if (!string.IsNullOrEmpty(models.SearchString))
+            if (!string.IsNullOrEmpty(models.Keyword))
             {
-                string newText = NormalizeTwoTextVN.Normalize(models.SearchString);
+                string newText = NormalizeTwoTextVN.Normalize(models.Keyword);
                 products = products.Where(p =>
                         (p.name != null && NormalizeTwoTextVN.Normalize(p.name).Contains(newText)) ||
                         (p.description != null && NormalizeTwoTextVN.Normalize(p.description).Contains(newText))

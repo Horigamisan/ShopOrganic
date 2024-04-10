@@ -279,6 +279,7 @@
     <Compile Include="Models\Favorites.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FilterBlogViewModel.cs" />
     <Compile Include="Models\FilterShopViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListCategories.cs">

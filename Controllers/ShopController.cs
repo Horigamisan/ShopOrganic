@@ -34,15 +34,7 @@ namespace WebDemo.Controllers
             ViewBag.MinPrice = models.MinPrice ?? 1000;
             ViewBag.MaxPrice = models.MaxPrice ?? 500000;
 
-            if (models.SearchString != null)
-            {
-                models.Page = 1;
-            }
-            else
-            {
-                models.SearchString = models.CurrentFilter;
-            }
-            ViewBag.CurrentFilter = models.SearchString;
+            ViewBag.Keyword = models.Keyword;
 
             IEnumerable<Products> productList = await _productService.GetProductOrderBy(models);
 
