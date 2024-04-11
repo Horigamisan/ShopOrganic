@@ -1,28 +1,22 @@
 # Shop-Organic
 
-Welcome to Shop-Organic, an innovative e-commerce platform designed to provide users with a seamless shopping experience for organic products. Built on the robust MVC .NET Framework 4.8, Shop-Organic offers a feature-rich solution for both customers and administrators alike.
+Welcome to Shop-Organic, an innovative e-commerce platform designed to provide users with a seamless shopping experience for organic products. Built on the robust MVC .NET Framework, Shop-Organic offers a feature-rich solution for both customers and administrators alike.
 
 ## Features
-
-### Blog Functionality
-- **User Engagement**: Empower users to share their experiences, insights, and knowledge by writing and publishing blog posts directly on the platform.
-- **Community Interaction**: Foster meaningful discussions and connections through integrated commenting and social sharing features.
-- **Content Integration**: Seamlessly integrate blog content with product listings to promote featured items and drive sales.
-
 ### E-commerce Capabilities
 - **Extensive Product Catalog**: Explore a diverse range of organic products spanning various categories, from groceries to personal care items.
 - **Effortless Shopping Experience**: Add products to the cart, review items, and complete transactions with ease.
 - **Secure Payment Processing**: Ensure peace of mind for customers with secure online payment processing and order tracking functionality.
 
 ## Technologies Used
-- **MVC .NET Framework 4.8**: Utilize the power and flexibility of the .NET Framework for robust web application development.
+- **MVC .NET Framework**: Utilize the power and flexibility of the .NET Framework for robust web application development.
 - **Entity Framework**: Employ an ORM framework for seamless data access and manipulation.
 - **LINQ**: Leverage Language Integrated Query to perform efficient data querying and manipulation.
 - **Azure Cloud Platform**: Harness the scalability and reliability of Azure for hosting and managing the application.
 - **OAuth**: Implement OAuth for secure user authentication and authorization.
 
 ## Live Demo
-Experience Shop-Organic in action by visiting our live demo: [Shop-Organic Demo](https://shoporganicazureweb.azurewebsites.net/)
+Experience Shop-Organic in action by visiting our live demo: [Shop-Organic Demo](https://shoporganic.azurewebsites.net/)
 
 ## YouTube Demo
 Watch a comprehensive demo of Shop-Organic on YouTube: [Shop-Organic YouTube Demo](https://www.youtube.com/your-youtube-demo-link)
@@ -38,7 +32,7 @@ To get started with Shop-Organic, follow these steps:
 4. Run the application locally to test functionality and make any required modifications.
 5. Once satisfied, push your changes to the GitHub repository to trigger the CI/CD workflow for automatic deployment to Azure.
 
-For detailed setup instructions and deployment guidelines, please refer to the project documentation or consult with your team.
+For detailed setup instructions and deployment guidelines, please refer to the project documentation.
 
 ## Contribution
 Contributions to Shop-Organic are welcomed and appreciated! If you have any ideas, suggestions, or bug fixes, please feel free to open an issue or submit a pull request.
