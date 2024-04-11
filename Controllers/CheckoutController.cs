@@ -86,7 +86,7 @@ namespace WebDemo.Controllers
 
         private async Task<string> CreateStripeCheckoutSession(OrderViewModel orderPost)
         {
-            var httpLink = "https://localhost:44356/thanh-toan";
+            var httpLink = "https://shoporganic.azurewebsites.net/thanh-toan";
             var carts = GetCurrentCart();
 
             var createOrder = await _ordersService.CreateNewOrder(orderPost, GetCurrentUserId(), carts);
