@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WebDemo.Models.Orders>
+﻿@model PagedList.IPagedList<WebDemo.Models.Orders>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "OrderHistory";
@@ -27,48 +28,37 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="shoping__cart__table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="shoping__product">Mã đơn hàng</th>
-                                <th>Tên khách hàng</th>
-                                <th>Ngày đặt hàng</th>
-                                <th>Địa chỉ giao hàng</th>
-                                <th>Trạng thái</th>
-                                <th>Tổng tiền</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                foreach (var item in Model)
-                                {
-                                    <tr class="cartItemsLoop">
-                                        <td class="shoping__cart__item">
-                                            <h5>@item.OrderID</h5>
-                                        </td>
-                                        <td class="shoping__cart__item">
-                                            <h5>@item.NameCustomer</h5>
-                                        </td>
-                                        <td class="shoping__cart__item">
-                                            <h5>@item.OrderDate</h5>
-                                        </td>
-                                        <td class="shoping__cart__item">
-                                            <h5>@item.ShippingAddress</h5>
-                                        </td>
-                                        <td class="shoping__cart__item">
-                                            <h5>@item.PaymentStatus</h5>
-                                        </td>
-                                        <td class="shoping__cart__item">
-                                            <h5>@item.TotalAmount VNĐ</h5>
-                                        </td>
-                                    </tr>
-                                }
+                <div class="col-lg-12 unique-table">
+                    <div class="shoping__cart__table">
+                        @{
+                            foreach (var item in Model)
+                            {
+                                <div class="card cartItemsLoop">
+                                    <div class="card-body history-item-header">
+                                        <h4>Mã đơn hàng</h4>
+                                        <h5>@item.OrderID</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5>@item.NameCustomer</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5>@item.OrderDate.GetValueOrDefault().ToString("MM/dd/yyyy")</h5>
+                                    </div>
+                                    <div class="card-body history-item-footer">
+                                        <h5 class="payment-history">@item.PaymentStatus</h5>
+                                        <div class="sum-total-history">
+                                            <h4>Tổng tiền</h4>
+                                            <h5>@String.Format("{0:#,##0.##}", @item.TotalAmount) VNĐ</h5>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
                             }
-
-                        </tbody>
-                    </table>
+                        }
+                    </div>
+                </div>
+                <div class="product__pagination d-flex justify-content-center mt-5">
+                    @Html.PagedListPager(Model, page => Url.Action("OrderHistory", "Checkout",new { page}))
                 </div>
             </div>
         </div>

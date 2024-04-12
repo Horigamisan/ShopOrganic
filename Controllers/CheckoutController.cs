@@ -9,6 +9,8 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using WebDemo.Services.Interfaces;
+using System.Reflection;
+using PagedList;
 
 namespace WebDemo.Controllers
 {
@@ -66,12 +68,15 @@ namespace WebDemo.Controllers
             return Redirect(await CreateStripeCheckoutSession(orderPost));
         }
 
-        public ActionResult OrderHistory()
+        public ActionResult OrderHistory(int? page)
         {
             var userId = _userService.GetUserByEmail(User.Identity.Name).Id;
             var model = _ordersService.GetUserOrdersHistory(userId);
             ViewBag.Products = _productService.GetAll();
-            return View(model);
+            int pageSize = 2;
+            int pageNumber = page ?? 1;
+            ViewBag.page = pageNumber;
+            return View(model.ToPagedList(pageNumber, pageSize));
         }
 
         private string GetCurrentUserId()
