@@ -31,7 +31,7 @@ namespace WebDemo.Services.Implementations
                 NoteOrder = orderPost.Notes,
                 OrderDate = DateTime.Now,
                 PaymentStatus = "Chưa thanh toán",
-                TotalAmount = carts.Sum(x => x.Price) + 4000
+                TotalAmount = carts.Sum(x => x.Price) + GetTax(carts)
             };
 
             _ordersRepo.Add(order);
@@ -70,6 +70,16 @@ namespace WebDemo.Services.Implementations
                 item.Status = "Đã thanh toán";
             }
             return await _unitOfWork.SaveChangesAsync();
+        }
+
+        public double GetTax(List<Carts> carts)
+        {
+            double? tax = 0;
+            foreach(var item in carts)
+            {
+                tax += item.Products.price * (item.Products.tax / 100.0);
+            }
+            return (double)tax;
         }
     }
 }

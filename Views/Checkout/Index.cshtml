@@ -85,18 +85,20 @@
                             <ul>
                                 @{
                                     var sumTotal = (double?)0;
-                                    
+                                    var sumEach = (double?)0;
+
                                     var cartList = ViewBag.Carts == null ? Model.carts : ViewBag.Carts;
 
                                     foreach (var item in cartList)
                                     {
-                                        sumTotal += item.Quantity * item.Products.price;
-                                        <li>@item.Products.name x @item.Quantity <span>@sumTotal VNĐ</span></li>
+                                        sumEach = item.Quantity * item.Products.price;
+                                        sumTotal += sumEach;
+                                        <li>@item.Products.name x @item.Quantity <span>@sumEach</span></li>
                                     }
-                                    sumTotal += 4000;
+                                    sumTotal += ViewBag.Tax;
                                 }
                             </ul>
-                            <div class="checkout__order__subtotal">Phí dịch vụ <span>4000 VNĐ</span></div>
+                            <div class="checkout__order__subtotal">Thuế <span>@ViewBag.Tax</span></div>
                             <div class="checkout__order__total">Tổng tiền <span>@sumTotal VNĐ</span></div>
 
                             <p>

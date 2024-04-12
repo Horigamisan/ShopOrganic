@@ -217,6 +217,7 @@
           <Property Name="latest_product" Type="bit" />
           <Property Name="top_product" Type="bit" />
           <Property Name="review_product" Type="bit" />
+          <Property Name="tax" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -737,6 +738,7 @@
           <NavigationProperty Name="Carts" Relationship="ShopOnlineModel.FK__Carts__ProductID__3F466844" FromRole="Products" ToRole="Carts" />
           <NavigationProperty Name="Favorites" Relationship="ShopOnlineModel.FK_Favorites_Product" FromRole="Products" ToRole="Favorites" />
           <NavigationProperty Name="OrderProduct" Relationship="ShopOnlineModel.FK__OrderProd__Produ__44FF419A" FromRole="Products" ToRole="OrderProduct" />
+          <Property Name="tax" Type="Int32" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -1082,6 +1084,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ShopOnlineModel.Products">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="tax" ColumnName="tax" />
                 <ScalarProperty Name="review_product" ColumnName="review_product" />
                 <ScalarProperty Name="top_product" ColumnName="top_product" />
                 <ScalarProperty Name="latest_product" ColumnName="latest_product" />

@@ -41,6 +41,7 @@ namespace WebDemo.Models
         public Nullable<bool> latest_product { get; set; }
         public Nullable<bool> top_product { get; set; }
         public Nullable<bool> review_product { get; set; }
+        public Nullable<int> tax { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Carts> Carts { get; set; }

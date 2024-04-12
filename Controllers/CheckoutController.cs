@@ -41,6 +41,7 @@ namespace WebDemo.Controllers
 
             ViewBag.Products = _productService.GetAll();
             ViewBag.Carts = model;
+            ViewBag.Tax = _ordersService.GetTax(model);
             return View();
         }
 
@@ -56,7 +57,8 @@ namespace WebDemo.Controllers
             
             orderPost.products = _productService.GetAll().ToList();
             orderPost.carts = carts.ToList();
-            
+            ViewBag.Tax = _ordersService.GetTax(carts);
+
             if (ModelState.IsValid == false)
             {
                 return View(orderPost);
@@ -105,7 +107,7 @@ namespace WebDemo.Controllers
                             {
                                 Name = "Thanh toán đơn hàng",
                             },
-                            UnitAmount = (long)(carts.Sum(x => x.Price)),
+                            UnitAmount = (long)(carts.Sum(x => x.Price)) + (long)_ordersService.GetTax(carts)
                         },
                         Quantity = 1
                     },
