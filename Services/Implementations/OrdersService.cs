@@ -81,5 +81,10 @@ namespace WebDemo.Services.Implementations
             }
             return (double)tax;
         }
+
+        public Orders GetOrderById(int id)
+        {
+            return _ordersRepo.FirstOrDefault(x => x.OrderID == id);
+        }
     }
 }

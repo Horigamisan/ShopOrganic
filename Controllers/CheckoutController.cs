@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using WebDemo.Services.Interfaces;
 using System.Reflection;
 using PagedList;
+using System.Globalization;
 
 namespace WebDemo.Controllers
 {
@@ -77,6 +78,37 @@ namespace WebDemo.Controllers
             int pageNumber = page ?? 1;
             ViewBag.page = pageNumber;
             return View(model.ToPagedList(pageNumber, pageSize));
+        }
+        
+        public ActionResult GetOrderById(int id)
+        {
+            var order = _ordersService.GetOrderById(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            var orderRes = new OrderResModel
+            {
+                OrderID = order.OrderID,
+                OrderDate = order.OrderDate.GetValueOrDefault().ToString("dddd, dd/MM/yyyy", new CultureInfo("vi-VN")),
+                UserID = order.UserID,
+                NameCustomer = order.NameCustomer,
+                ShippingAddress = order.ShippingAddress,
+                PhoneNumber = order.PhoneNumber,
+                NoteOrder = order.NoteOrder,
+                TotalAmount = order.TotalAmount,
+                PaymentStatus = order.PaymentStatus,
+                OrderProduct = order.OrderProduct.Select(o => new OrderProductResModel
+                {
+                    ProductName = o.Products.name,
+                    Quantity = o.Quantity.Value,
+                    Price = o.Price.Value,
+                    Image = o.Products.img
+                }).ToList()
+            };
+
+            return Json(orderRes, JsonRequestBehavior.AllowGet);
         }
 
         private string GetCurrentUserId()

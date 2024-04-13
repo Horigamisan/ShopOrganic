@@ -15,7 +15,7 @@
                     <div class="breadcrumb__option">
                         <a href="/">Trang chủ</a>
                         <a href="/san-pham/@ViewBag.category.meta">@ViewBag.category.name</a>
-                        <span>@Model.name</span>
+                        <span >@Model.name</span>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                         @: <a href="@Url.Action("UpdateFavoriteProduct", "Product", new {productId = Model.id, returnUrl = Request.Path})" class="heart-icon"><span class="icon_heart_alt"></span></a>
                     }
                     <ul>
-                        <li><b>Trạng thái</b> <span>@Model.availability</span></li>
+                        <li id="targetScroll"><b>Trạng thái</b> <span>@Model.availability</span></li>
                         <li><b>Thời gian giao hàng</b> <span>@Model.shipping_day</span></li>
                         <li><b>Cân nặng</b> <span>@Model.weight</span></li>
                         <li>

@@ -9,6 +9,7 @@ namespace WebDemo.Services.Interfaces
 {
     public interface IOrdersService
     {
+        Orders GetOrderById(int id);
         IEnumerable<Orders> GetUserOrdersByStatus(string userId, string status);
         IEnumerable<Orders> GetUserOrdersHistory(string id);
         Orders GetOrderByStatus(int orderId, string status);

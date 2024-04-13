@@ -307,6 +307,8 @@
     <Compile Include="Models\OrderProduct.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderProductResModel.cs" />
+    <Compile Include="Models\OrderResModel.cs" />
     <Compile Include="Models\Orders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
