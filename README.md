@@ -15,6 +15,17 @@ Welcome to Shop-Organic, an innovative e-commerce platform designed to provide u
 - **Azure Cloud Platform**: Harness the scalability and reliability of Azure for hosting and managing the application.
 - **OAuth**: Implement OAuth for secure user authentication and authorization.
 
+## Login Credentials:
+- **For admin**: Email: admin@gmail.com, password: appadmin
+- **For user**: Email: phucnguyen00701@gmail.com, password: P@ssword123
+
+## Admin's Abilities:
+- **Product Management**: The admin can add, edit, or remove products from the system. This encompasses alterations in the detailed product info, such as its name, pricing, descriptions, and images.
+- **Blog Management**: The admin can create new blog posts, edit the content of existing ones, or delete them entirely.
+- **User Interface Changes**: The admin holds the right to modify elements on the interface, which includes the banner and menu. This enables the admin to update the interface to enhance user experience.
+- **Product Category Management**: The admin can add, edit, delete, and arrange product categories according to the user's needs.
+- **Website Information Updates**: The admin is authorized to make changes to basic info on the website. This comprises the company's name, address, contact information, and more.
+
 ## Live Demo
 Experience Shop-Organic in action by visiting our live demo: [Shop-Organic Demo](https://shoporganic.azurewebsites.net/)
 
