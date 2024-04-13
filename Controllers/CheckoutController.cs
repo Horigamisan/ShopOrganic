@@ -101,6 +101,8 @@ namespace WebDemo.Controllers
                 PaymentStatus = order.PaymentStatus,
                 OrderProduct = order.OrderProduct.Select(o => new OrderProductResModel
                 {
+                    ProductId = o.ProductID ?? 1,
+                    Meta = o.Products.meta,
                     ProductName = o.Products.name,
                     Quantity = o.Quantity.Value,
                     Price = o.Price.Value,
