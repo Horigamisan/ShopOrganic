@@ -1,4 +1,4 @@
-<!-- Categories Section Begin -->
+ï»¿<!-- Categories Section Begin -->
 <section class="categories">
     <div class="container">
         <div class="row">
@@ -47,23 +47,26 @@
 
 @{ Html.RenderAction("GetBlogs", "Default");}
 <!-- Blog Section End -->
-<script>
+@section Scripts {
+    <script>
+        
     // L?y URL c?a trang hi?n t?i
     var url = window.location.href;
 
-    // Tìm t?t c? các th? <a> trong thanh menu
+    // TÃ¬m t?t c? cÃ¡c th? <a> trong thanh menu
     var links = document.querySelectorAll('.header__menu a');
 
     // Duy?t qua t?ng th? <a>
     links.forEach(function (link) {
-        // N?u href c?a th? <a> trùng v?i URL c?a trang hi?n t?i
+        // N?u href c?a th? <a> trÃ¹ng v?i URL c?a trang hi?n t?i
         if (link.href === url) {
-            // Thêm l?p "active" vào th? <a>
+            // ThÃªm l?p "active" vÃ o th? <a>
             link.classList.add('active');
 
-            // Thêm l?p "active" vào th? cha c?a th? <a>
+            // ThÃªm l?p "active" vÃ o th? cha c?a th? <a>
             var parent = link.parentElement;
             parent.classList.add('active');
         }
     });
-</script>
+    </script>
+}

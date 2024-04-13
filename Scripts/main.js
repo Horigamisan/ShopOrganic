@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 (function ($) {
 
@@ -20,6 +20,41 @@
             var containerEl = document.querySelector('.featured__filter');
             var mixer = mixitup(containerEl);
         }
+
+        function showToast(message) {
+            $('.toast-body').html(message);
+            $('#liveToast').toast('show');
+        }
+
+        $(document).on('click', '.favoriteLink', function (e) {
+            e.preventDefault();
+            // Lấy id sản phẩm từ thuộc tính 'data-product-id' của thẻ 'li'
+            var productId = $(this).parent('.favoriteProduct').data('product-id');
+
+            $.ajax({
+                url: '/Product/UpdateFavoriteProduct',
+                type: 'POST',
+                data: { productId: productId },
+                success: function (data) {
+                    if (data.status == '401') {
+                        window.location.href = '/Account/Login';
+                    }
+                    else {
+                        if (data.isFavorite) {
+                            $(this).parent('.favoriteProduct').addClass('favorite');
+                            showToast('Sản phẩm được thêm vào yêu thích!');
+                        } else {
+                            $(this).parent('.favoriteProduct').removeClass('favorite');
+                            showToast('Sản phẩm được xoá khỏi yêu thích!');
+                        }
+                    }
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    showToast('Đã có lỗi xảy ra, vui lòng thử lại sau!');
+                }
+
+            });
+        });
     });
 
     /*------------------
@@ -219,5 +254,7 @@
         block: 'center',
         inline: 'center'
     });
+
+    
 
 })(jQuery);

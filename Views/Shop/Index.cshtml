@@ -100,7 +100,7 @@
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="/Uploads/img/product/@i.img">
                                         <ul class="product__item__pic__hover">
-                                            <li class="@(ViewBag.products != null && ViewBag.products.Contains(i.id) ? "favorite" : "")"><a href="@Url.Action("UpdateFavoriteProduct", "Product", new {productId = i.id, returnUrl = Request.Path})"><i class="fa fa-heart"></i></a></li>
+                                            <li data-product-id="@i.id" class="@(ViewBag.products != null && ViewBag.products.Contains(i.id) ? "favorite" : "") favoriteProduct"><a href="#" class="favoriteLink"><i class="fa fa-heart"></i></a></li>
                                             <li><a href="/@ViewBag.meta/@i.meta/@i.id"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
@@ -165,8 +165,6 @@
         $("#filterPrice").click(function () {
             changeSlider();
         });
-
-
     });
     </script>
     <script>

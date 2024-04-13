@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebDemo.Services.Interfaces;
+using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace WebDemo.Controllers
 {
@@ -44,8 +47,12 @@ namespace WebDemo.Controllers
         {
             var model = await _productService.GetProductById(id);
             var category = await _productService.GetCategoryByProductId(model.categoryid);
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = _userService.GetUserByEmail(User.Identity.Name).Id;
+                ViewBag.isFavorite = await _favoriteService.GetFavoriteByProductIdAndUId(userId, id);
+            }
             ViewBag.category = category;
-            ViewBag.isFavorite = _favoriteService.IsFavoriteById(id);
             return View(model);
         }
 
@@ -72,26 +79,30 @@ namespace WebDemo.Controllers
             return View(products);
         }
 
-        //update fav 
-        [Authorize]
-        public async Task<ActionResult> UpdateFavoriteProduct(int productId, string returnUrl)
+        public async Task<ActionResult> UpdateFavoriteProduct(int productId)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { status = 401, success = false});
+            }
+
             var user = _userService.GetUserByEmail(User.Identity.Name);
 
             if (user != null)
             {
-                await _favoriteService.UpdateFavoriteProduct(user.Id, productId);
+                bool updated = await _favoriteService.UpdateFavoriteProduct(user.Id, productId);
 
                 // Trả về một phản hồi thành công
-                if (!string.IsNullOrEmpty(returnUrl))
+                /*if (!string.IsNullOrEmpty(returnUrl))
                     return Redirect(returnUrl);
                 else
-                    return RedirectToAction("GetFavoriteProduct");
+                    return RedirectToAction("GetFavoriteProduct");*/
+                return Json(new { status = 200, success = true,  isFavorite = updated}, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 // Người dùng không tồn tại, trả về thông báo lỗi
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
         }
     }
