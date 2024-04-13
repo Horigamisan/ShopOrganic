@@ -31,7 +31,7 @@
                     <div class="featured__item">
                         <div class="featured__item__pic set-bg" data-setbg="/Uploads/img/product/@i.img">
                             <ul class="featured__item__pic__hover">
-                                <li class="favorite"><a href="@Url.Action("UpdateFavoriteProduct", "Product", new {productId = i.id, returnUrl = Request.Path})"><i class="fa fa-heart"></i></a></li>
+                                <li data-product-id="@i.id" class="favorite favoriteProductMain"><a href="#" class="favoriteLinkMain"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="/@ViewBag.meta/@i.meta/@i.id"><i class="fa fa-shopping-cart"></i></a></li>
                             </ul>
                         </div>
@@ -45,3 +45,35 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+    <script>
+        $(document).on('click', '.favoriteLinkMain', function (e) {
+            e.preventDefault();
+            var productId = $(this).parent('.favoriteProductMain').data('product-id');
+
+            $.ajax({
+                url: '/Product/UpdateFavoriteProduct',
+                type: 'POST',
+                data: { productId: productId },
+                success: function (data) {
+                    if (data.status == '401') {
+                        window.location.href = '/Account/Login';
+                    }
+                    else {
+                        if (!data.isFavorite) {
+                            let productElement = $(this).parents('.col-lg-3');
+                            productElement.fadeOut('slow', function () {
+                                productElement.remove();
+                                showToast('Sản phẩm đã được xoá khỏi yêu thích!');
+                            });
+                        }
+                    }
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    showToast('Đã có lỗi xảy ra, vui lòng thử lại sau!');
+                }
+            });
+        });
+    </script>
+}

@@ -9,6 +9,9 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using WebDemo.Services.Interfaces;
+using System.Reflection;
+using PagedList;
+using System.Globalization;
 
 namespace WebDemo.Controllers
 {
@@ -41,6 +44,7 @@ namespace WebDemo.Controllers
 
             ViewBag.Products = _productService.GetAll();
             ViewBag.Carts = model;
+            ViewBag.Tax = _ordersService.GetTax(model);
             return View();
         }
 
@@ -56,7 +60,8 @@ namespace WebDemo.Controllers
             
             orderPost.products = _productService.GetAll().ToList();
             orderPost.carts = carts.ToList();
-            
+            ViewBag.Tax = _ordersService.GetTax(carts);
+
             if (ModelState.IsValid == false)
             {
                 return View(orderPost);
@@ -64,12 +69,46 @@ namespace WebDemo.Controllers
             return Redirect(await CreateStripeCheckoutSession(orderPost));
         }
 
-        public ActionResult OrderHistory()
+        public ActionResult OrderHistory(int? page)
         {
             var userId = _userService.GetUserByEmail(User.Identity.Name).Id;
             var model = _ordersService.GetUserOrdersHistory(userId);
             ViewBag.Products = _productService.GetAll();
-            return View(model);
+            int pageSize = 2;
+            int pageNumber = page ?? 1;
+            ViewBag.page = pageNumber;
+            return View(model.ToPagedList(pageNumber, pageSize));
+        }
+        
+        public ActionResult GetOrderById(int id)
+        {
+            var order = _ordersService.GetOrderById(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            var orderRes = new OrderResModel
+            {
+                OrderID = order.OrderID,
+                OrderDate = order.OrderDate.GetValueOrDefault().ToString("dddd, dd/MM/yyyy", new CultureInfo("vi-VN")),
+                UserID = order.UserID,
+                NameCustomer = order.NameCustomer,
+                ShippingAddress = order.ShippingAddress,
+                PhoneNumber = order.PhoneNumber,
+                NoteOrder = order.NoteOrder,
+                TotalAmount = order.TotalAmount,
+                PaymentStatus = order.PaymentStatus,
+                OrderProduct = order.OrderProduct.Select(o => new OrderProductResModel
+                {
+                    ProductName = o.Products.name,
+                    Quantity = o.Quantity.Value,
+                    Price = o.Price.Value,
+                    Image = o.Products.img
+                }).ToList()
+            };
+
+            return Json(orderRes, JsonRequestBehavior.AllowGet);
         }
 
         private string GetCurrentUserId()
@@ -105,7 +144,7 @@ namespace WebDemo.Controllers
                             {
                                 Name = "Thanh toán đơn hàng",
                             },
-                            UnitAmount = (long)(carts.Sum(x => x.Price)),
+                            UnitAmount = (long)(carts.Sum(x => x.Price)) + (long)_ordersService.GetTax(carts)
                         },
                         Quantity = 1
                     },

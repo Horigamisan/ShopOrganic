@@ -71,7 +71,7 @@ namespace WebDemo.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
 
-        public ActionResult Create([Bind(Include = "name,price,img,description,meta,hide,order,datebegin,categoryid,latest_product,top_product,review_product, availability, shipping_day, weight, detail_description")] Products products, HttpPostedFileBase img)
+        public ActionResult Create([Bind(Include = "name,price,img,description,meta,hide,order,datebegin,categoryid,latest_product,top_product,review_product, availability, shipping_day, weight, detail_description, tax")] Products products, HttpPostedFileBase img)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace WebDemo.Areas.admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include = "id, name,price,img,description,meta,hide,order,datebegin,categoryid,latest_product,top_product,review_product, availability, shipping_day, weight, detail_description")] Products products, HttpPostedFileBase img)
+        public ActionResult Edit([Bind(Include = "id, name,price,img,description,meta,hide,order,datebegin,categoryid,latest_product,top_product,review_product, availability, shipping_day, weight, detail_description, tax")] Products products, HttpPostedFileBase img)
         {
             try
             {
@@ -169,6 +169,7 @@ namespace WebDemo.Areas.admin.Controllers
                     temp.shipping_day = products.shipping_day;
                     temp.weight = products.weight;
                     temp.detail_description = products.detail_description;
+                    temp.tax = products.tax;
                     db.Entry(temp).State = EntityState.Modified;
                     db.SaveChanges();
                     //return RedirectToAction("Index");

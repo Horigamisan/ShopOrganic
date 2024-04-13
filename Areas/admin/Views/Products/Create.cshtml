@@ -146,6 +146,14 @@
                     </div>
 
                     <div class="row form-group">
+                        @Html.Label("Phần trăm thuế", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.tax, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.tax, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
                         @Html.Label("Mô tả chi tiết", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.TextAreaFor(model => model.detail_description)

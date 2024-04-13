@@ -68,16 +68,16 @@
                         </div>
                     </div>
                     <a href="#" class="primary-btn" id="AddToCarts">THÊM VÀO GIỎ</a>
-                    @if (ViewBag.isFavorite)
+                    @if (ViewBag.isFavorite != null)
                     {
-                        @: <a href="@Url.Action("UpdateFavoriteProduct", "Product", new {productId = Model.id, returnUrl = Request.Path})" class="heart-icon-favorite"><span class="icon_heart"></span></a>
+                        @: <a href="#" class="heart-icon-favorite" data-product-id="@Model.id"><span class="icon_heart"></span></a>
                     }
                     else
                     {
-                        @: <a href="@Url.Action("UpdateFavoriteProduct", "Product", new {productId = Model.id, returnUrl = Request.Path})" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        @: <a href="#" class="heart-icon" data-product-id="@Model.id"><span class="icon_heart_alt"></span></a>
                     }
                     <ul>
-                        <li><b>Trạng thái</b> <span>@Model.availability</span></li>
+                        <li id="targetScroll"><b>Trạng thái</b> <span>@Model.availability</span></li>
                         <li><b>Thời gian giao hàng</b> <span>@Model.shipping_day</span></li>
                         <li><b>Cân nặng</b> <span>@Model.weight</span></li>
                         <li>
@@ -163,6 +163,46 @@
               }
             });
           });
-});
+        });
+
+        $(document).ready(function () {
+            $('.heart-icon-favorite, .heart-icon').click(function (event) {
+                event.preventDefault();
+
+                // Get product ID
+                var productId = $(this).data('product-id');
+
+                $.ajax({
+                    url: '/Product/UpdateFavoriteProduct',
+                    type: 'POST',
+                    data: { productId: productId },
+                    success: (data) => {
+                        // Update classes based on new 'isFavorite' value
+                        if (data.status == '401') {
+                            window.location.href = '/Account/Login';
+                        }
+                        else {
+                            if (data.isFavorite) {
+                                $(this).removeClass('heart-icon');
+                                $(this).addClass('heart-icon-favorite');
+                                $(this).find('span').attr('class', 'icon_heart');
+                                $('.toast-body').html('Sản phẩm được thêm vào yêu thích!');
+                                $('#liveToast').toast('show');
+                            } else {
+                                $(this).removeClass('heart-icon-favorite');
+                                $(this).addClass('heart-icon');
+                                $(this).find('span').attr('class', 'icon_heart_alt');
+                                $('.toast-body').html('Sản phẩm được xóa khỏi yêu thích!');
+                                $('#liveToast').toast('show');
+                            }
+                        }
+                    },
+                    error: function (error) {
+                        $('.toast-body').html('Lỗi khi thêm hoặc xoá yêu thích!');
+                        $('#liveToast').toast('show');
+                    }
+                });
+            });
+        });
     </script>
 }
