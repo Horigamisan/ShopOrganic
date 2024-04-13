@@ -102,14 +102,15 @@
                         <table class="table table-borderless">
                             <thead>
                                 <tr class="text-uppercase text-muted">
-                                    <th scope="col">sản phẩm</th>
-                                    <th scope="col" class="text-right">tổng cộng</th>
+                                    <th scope="row">Tên người đặt</th>
+                                    <td class="text-right name-customer-history"><b></b></td>
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <tr>
-                                    <th scope="row">Tổng lượng sản phẩm</th>
-                                    <td class="text-right total-money-history"><b></b></td>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col" class="text-right">Tổng cộng</th>
                                 </tr>
                             </tbody>
                         </table>
@@ -120,9 +121,9 @@
                     <div class="d-flex justify-content-start align-items-center pl-3">
                         <div class="text-muted">Phương thức thanh toán</div>
                         <div class="ml-auto">
-                            <img src="https://www.freepnglogos.com/uploads/mastercard-png/mastercard-logo-logok-15.png" alt=""
+                            <img class="mb-1" src="https://www.freepnglogos.com/uploads/visa-logo-png-image-4.png" alt=""
                                  width="30" height="30">
-                            <label>Mastercard ******5342</label>
+                            <label>Visa ******4242</label>
                         </div>
                     </div>
                     <div class="d-flex justify-content-start align-items-center py-1 pl-3">
@@ -133,7 +134,7 @@
                     </div>
                     <div class="d-flex justify-content-start align-items-center pl-3 py-3 mb-4 border-bottom">
                         <div class="text-muted ">
-                            Tổng giá hôm nay
+                            Tổng giá sản phẩm
                         </div>
                         <div class="ml-auto h5 total-money-history">
                             $34.94
@@ -169,14 +170,19 @@
                         $("#date-history").text(data.OrderDate)
                         $('#history-order-header').html('Đơn hàng <b class="text-dark">#' + data.OrderID + '</b> hiện đang được<b class="text-dark"> vận chuyển</b>');
                         $('.total-money-history').html('<b>' + data.TotalAmount + ' VNĐ</b>')
+                        $('.name-customer-history').html('<b>' + data.NameCustomer + '</b>')
+
                         let htmlProducts = '';
                         data.OrderProduct.forEach(function (item) {
-                            htmlProducts += '<div class="d-flex justify-content-start align-items-center list py-1">';
+                            htmlProducts += '<div class="d-flex justify-content-between align-items-center list py-1 mx-3">';
+                            htmlProducts += '<div class="d-flex justify-content-start align-items-center">';
                             htmlProducts += '<div><b>' + item.Quantity + 'x</b></div>';
                             htmlProducts += '<div class="mx-3">';
                             htmlProducts += '<img src="/Uploads/img/product/' + item.Image + '" alt="' + item.ProductName + '" class="rounded-circle" width="30" height="30">';
                             htmlProducts += '</div>';
-                            htmlProducts += '<div class="order-item">' + item.ProductName + '</div>';
+                            htmlProducts += '<div class="order-item"><a href="/san-pham/' + item.Meta + '/' + item.ProductId + '">' + item.ProductName + '</a></div>';
+                            htmlProducts += '</div>';
+                            htmlProducts += '<div class="order-price">' + item.Price + ' VNĐ</div>';
                             htmlProducts += '</div>';
                         });
 
