@@ -353,6 +353,12 @@ namespace WebDemo.Controllers
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            var user = await UserManager.FindByEmailAsync(loginInfo.Email);
+            if (user != null)
+            {
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
+                return RedirectToLocal(returnUrl);
+            }
             switch (result)
             {
                 case SignInStatus.Success:
