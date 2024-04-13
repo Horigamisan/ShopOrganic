@@ -8,7 +8,7 @@ using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
-    public class ContactController : Controller
+    public class ContactController : BaseController
     {
         private readonly ILayoutService _layoutService;
         public ContactController(ILayoutService layoutService)

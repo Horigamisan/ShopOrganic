@@ -10,7 +10,7 @@ using WebDemo.Services.Interfaces;
 namespace WebDemo.Controllers
 {
     [Authorize]
-    public class CartsController : Controller
+    public class CartsController : BaseController
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         private readonly ICartService _cartService;

@@ -16,7 +16,7 @@ using System.Globalization;
 namespace WebDemo.Controllers
 {
     [Authorize]
-    public class CheckoutController : Controller
+    public class CheckoutController : BaseController
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         private readonly IUserService _userService;

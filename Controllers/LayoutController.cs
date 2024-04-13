@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace WebDemo.Controllers
 {
-    public class LayoutController : Controller
+    public class LayoutController : BaseController
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         private readonly ILayoutService _layoutService;

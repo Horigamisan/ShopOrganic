@@ -9,7 +9,7 @@ using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
-    public class DefaultController : Controller
+    public class DefaultController : BaseController
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
 

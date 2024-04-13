@@ -11,7 +11,7 @@ using WebDemo.Services.Interfaces;
 
 namespace WebDemo.Controllers
 {
-    public class BlogController : Controller
+    public class BlogController : BaseController
     {
         private readonly IBlogService _blogService;
 
