@@ -175,7 +175,7 @@ namespace WebDemo.Controllers
             try
             {
                 // Verify the event by getting it from Stripe's API directly
-                var stripeEvent = Stripe.EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], "whsec_8f4e2201975bfda168148a2086d931fce664da596466bb791c7341fc20b34c7d");
+                var stripeEvent = Stripe.EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], "whsec_CuEDawNP9a8o10qUtxKLkWEmI6qpUZKH");
 
                 // Kiểm tra xem loại sự kiện có trùng khớp với một trong những loại mà chúng ta sẽ quản lý không
                 if (stripeEvent.Type == Events.CheckoutSessionCompleted)
