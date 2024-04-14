@@ -29,9 +29,6 @@ Welcome to Shop-Organic, an innovative e-commerce platform designed to provide u
 ## Live Demo
 Experience Shop-Organic in action by visiting our live demo: [Shop-Organic Demo](https://shoporganic.azurewebsites.net/)
 
-## YouTube Demo
-Watch a comprehensive demo of Shop-Organic on YouTube: [Shop-Organic YouTube Demo](https://www.youtube.com/your-youtube-demo-link)
-
 ## Continuous Integration and Deployment (CI/CD) Workflow
 Shop-Organic employs a robust CI/CD workflow powered by GitHub Actions. This automated process ensures seamless integration and deployment of changes, enabling rapid iteration and delivery of new features.
 
