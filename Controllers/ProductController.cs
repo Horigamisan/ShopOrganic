@@ -22,7 +22,7 @@ namespace WebDemo.Controllers
         // GET: Product
         public async Task<ActionResult> Index(string meta)
         {
-            var model = await _productService.GetCategoryByMeta("meta");
+            var model = await _productService.GetCategoryByMeta(meta);
             return View(model);
         }
 
