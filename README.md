@@ -19,6 +19,12 @@ Welcome to Shop-Organic, an innovative e-commerce platform designed to provide u
 - **For admin**: Email: admin@gmail.com, password: appadmin
 - **For user**: Email: phucnguyen00701@gmail.com, password: P@ssword123
 
+## Checkout Transaction Test for Stripe:
+Here are some test card numbers provided by Stripe:
+- Successful transaction: 4242 4242 4242 4242
+- Decline card: 4000 0000 0000 0002
+- Insufficient funds: 4000 0000 0000 9995
+
 ## Admin's Abilities:
 - **Product Management**: The admin can add, edit, or remove products from the system. This encompasses alterations in the detailed product info, such as its name, pricing, descriptions, and images.
 - **Blog Management**: The admin can create new blog posts, edit the content of existing ones, or delete them entirely.
