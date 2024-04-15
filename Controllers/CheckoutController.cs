@@ -16,7 +16,7 @@ using System.Globalization;
 namespace WebDemo.Controllers
 {
     [Authorize]
-    public class CheckoutController : Controller
+    public class CheckoutController : BaseController
     {
         private readonly ShopOnlineEntities db = new ShopOnlineEntities();
         private readonly IUserService _userService;
@@ -127,7 +127,7 @@ namespace WebDemo.Controllers
 
         private async Task<string> CreateStripeCheckoutSession(OrderViewModel orderPost)
         {
-            var httpLink = "https://localhost:44356/thanh-toan";
+            var httpLink = "https://shoporganic.azurewebsites.net/thanh-toan";
             var carts = GetCurrentCart();
 
             var createOrder = await _ordersService.CreateNewOrder(orderPost, GetCurrentUserId(), carts);
@@ -177,7 +177,7 @@ namespace WebDemo.Controllers
             try
             {
                 // Verify the event by getting it from Stripe's API directly
-                var stripeEvent = Stripe.EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], "whsec_8f4e2201975bfda168148a2086d931fce664da596466bb791c7341fc20b34c7d");
+                var stripeEvent = Stripe.EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], "whsec_CuEDawNP9a8o10qUtxKLkWEmI6qpUZKH");
 
                 // Kiểm tra xem loại sự kiện có trùng khớp với một trong những loại mà chúng ta sẽ quản lý không
                 if (stripeEvent.Type == Events.CheckoutSessionCompleted)

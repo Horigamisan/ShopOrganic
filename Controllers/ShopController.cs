@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace WebDemo.Controllers
 {
-    public class ShopController : Controller
+    public class ShopController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IFavoriteService _favoriteService;

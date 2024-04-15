@@ -8,7 +8,7 @@ using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace WebDemo.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IFavoriteService _favoriteService;
@@ -22,7 +22,7 @@ namespace WebDemo.Controllers
         // GET: Product
         public async Task<ActionResult> Index(string meta)
         {
-            var model = await _productService.GetCategoryByMeta(meta);
+            var model = await _productService.GetCategoryByMeta("meta");
             return View(model);
         }
 
